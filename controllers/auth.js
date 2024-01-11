@@ -57,26 +57,9 @@ const getCurrentUser = async (req, res, next) => {
   res.status(200).json({ email: user.email, subscription: user.subscription });
 };
 
-const updateSubscriptionStatus = async (req, res, next) => {
-  const { id } = req.user;
-  const { subscription } = req.body;
-  const updatedUser = await User.findByIdAndUpdate(
-    id,
-    { subscription },
-    { new: true }
-  );
-  if (!updatedUser) {
-    throw HttpError(404, "Not found");
-  }
-  res
-    .status(200)
-    .json({ email: updatedUser.email, subscription: updatedUser.subscription });
-};
-
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   logout: ctrlWrapper(logout),
   getCurrentUser: ctrlWrapper(getCurrentUser),
-  updateSubscriptionStatus: ctrlWrapper(updateSubscriptionStatus),
 };
