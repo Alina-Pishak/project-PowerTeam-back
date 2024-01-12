@@ -9,7 +9,7 @@ const userSchema = new Schema(
     name: {
       type: String,
       required: [true, "Name is required"],
-      default: 'Igor'
+      //default: 'Igor'
   },
     email: {
       type: String,
@@ -25,7 +25,7 @@ const userSchema = new Schema(
     avatarURL: {
       type: String,
       required: true,
-      default: 'https://res.cloudinary.com/ditdqzoio/image/upload/v1689380120/avatars/noname.png',
+      default: 'https://www.gravatar.com/avatar/12621825cc13ae051332f9275187e605?s=250',
     },
     bodyData: {
       type: Boolean,
