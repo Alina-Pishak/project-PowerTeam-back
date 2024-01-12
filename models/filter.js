@@ -11,7 +11,7 @@ const typesSchema = new Schema({
   },
   imgURL: {
     type: String,
-    requried: true,
+    required: true,
   },
 });
 
