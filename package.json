@@ -9,6 +9,7 @@
     "lint:fix": "eslint --fix **/*.js"
   },
   "dependencies": {
+    "@joi/date": "^2.1.0",
     "bcrypt": "^5.1.1",
     "cloudinary": "^1.41.2",
     "cors": "2.8.5",
