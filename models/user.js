@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-//const handleMongooseError = require("../middlewares/handleMongooseError");// !!!
 const handleMongooseError = require("../helpers/handleMongooseError");
 
 const emailRegexp = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
