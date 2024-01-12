@@ -1,0 +1,1075 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "2.0.0",
+    "title": "Power Pulse 2.0",
+    "description": "Documentation project Power Pulse 2.0.0",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json"],
+  "servers": [
+    {
+      "url": "https://powerpulse-backend-heie.onrender.com/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth Controller",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "User Controller",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Statistics Controller",
+      "description": "Statistics endpoints"
+    },
+    {
+      "name": "Diary Controller",
+      "description": "Diary endpoints"
+    },
+    {
+      "name": "Products Controller",
+      "description": "Products endpoints"
+    },
+    {
+      "name": "Exercises Controller",
+      "description": "Exercises endpoints"
+    }
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": ["Auth Controller"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/RegistrationUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing field"
+          },
+          "409": {
+            "description": "Email in use"
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": ["Auth Controller"],
+        "summary": "User login",
+        "parameters": [],
+        "requestBody": {
+          "description": "Login's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SigninUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/SigninUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing field"
+          },
+          "401": {
+            "description": "Email or password is wrong"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth Controller"],
+        "summary": "User logout",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Logout's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/user/current": {
+      "get": {
+        "tags": ["User Controller"],
+        "summary": "Current user",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/user/avatar": {
+      "patch": {
+        "tags": ["User Controller"],
+        "summary": "Update user`s avatar",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "New avatar object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/AvatarUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/AvatarsUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing field"
+          }
+        }
+      }
+    },
+    "/user/inform": {
+      "patch": {
+        "tags": ["User Controller"],
+        "summary": "Information user",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Main information about user",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InformationUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/InformationUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing field"
+          }
+        }
+      }
+    },
+
+    "/statistics": {
+      "get": {
+        "tags": ["Statistics Controller"],
+        "summary": "Statistics app",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/StatisticsAllResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing field"
+          }
+        }
+      }
+    },
+
+    "/diary/products": {
+      "get": {
+        "tags": ["Diary Controller"],
+        "summary": "User`s diary products ",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/ProductsListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing field"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Diary Controller"],
+        "summary": "User`s diary products ",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Add product in diary",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiaryProduct"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/DiaryAddProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing field"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Diary Controller"],
+        "summary": "User`s diary exercises ",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Delete exercise in diary",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiaryProduct"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Missing field"
+          }
+        }
+      }
+    },
+    "/diary/exercises": {
+      "get": {
+        "tags": ["Diary Controller"],
+        "summary": "User`s diary exercises ",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/ExercisesListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing field"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Diary Controller"],
+        "summary": "User`s diary exercises ",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Add exercise in diary",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiaryExercise"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/DiaryAddExerciseResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing field"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Diary Controller"],
+        "summary": "User`s diary exercises ",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Delete exercise in diary",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiaryExercise"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Missing field"
+          }
+        }
+      }
+    },
+
+    "/products": {
+      "get": {
+        "tags": ["Products Controller"],
+        "summary": "All Products list",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/ProductsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing field"
+          }
+        }
+      }
+    },
+    "/products/category": {
+      "get": {
+        "tags": ["Products Controller"],
+        "summary": "Products category",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/ProductsCategoryAllResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing field"
+          }
+        }
+      }
+    },
+    "/products/recommend": {
+      "get": {
+        "tags": ["Products Controller"],
+        "summary": "Recommendations products",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Find recommendations or no recommendations product`s list",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendationsProducts"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/ProductsListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing field"
+          }
+        }
+      }
+    },
+
+    "/exercises": {
+      "get": {
+        "tags": ["Exercises Controller"],
+        "summary": "All exercises list",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/ExercisesListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing field"
+          }
+        }
+      }
+    },
+    "/exercises/{:category}": {
+      "get": {
+        "tags": ["Exercises Controller"],
+        "summary": "All exercises by body parts/muscles/equipment",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Exercises`s category",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExercisesCategory"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/ExercisesListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing field"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationUser": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "Backend-generated unique identifier."
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password"
+          }
+        },
+        "example": {
+          "name": "Adrian Cross",
+          "email": "across@mail.com",
+          "password": "examplepwd12345"
+        }
+      },
+      "SigninUser": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password"
+          }
+        },
+        "example": {
+          "email": "across@mail.com",
+          "password": "examplepwd12345"
+        }
+      },
+      "LogoutUser": {
+        "type": "object",
+        "required": ["userId"],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "User id"
+          }
+        }
+      },
+      "AvatarUser": {
+        "type": "object",
+        "required": ["avatar"],
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+      "InformationUser": {
+        "type": "object",
+        "required": [
+          "height",
+          "currentWeight",
+          "desiredWeight",
+          "birthday",
+          "blood",
+          "sex",
+          "levelActivity"
+        ],
+        "properties": {
+          "height": {
+            "type": "number",
+            "description": "User's height",
+            "minimum": 150
+          },
+          "currentWeight": {
+            "type": "number",
+            "description": "User's currentWeight",
+            "minimum": 35
+          },
+          "desiredWeight": {
+            "type": "number",
+            "description": "User's desiredWeight",
+            "minimum": 35
+          },
+          "birthday": {
+            "type": "date",
+            "description": "User's birthday",
+            "format": "DD-MM-YYYY",
+            "minimum": 18
+          },
+          "blood": {
+            "type": "number",
+            "description": "User's blood",
+            "enum": [1, 2, 3, 4]
+          },
+          "sex": {
+            "type": "string",
+            "description": "User's sex",
+            "enum": ["male", "female"]
+          },
+          "levelActivity": {
+            "type": "number",
+            "description": "User's levelActivity",
+            "enum": [1, 2, 3, 4, 5]
+          }
+        },
+        "example": {
+          "height": 150,
+          "currentWeight": 35,
+          "desiredWeight": 35,
+          "birthday": "12-28-1985",
+          "blood": 2,
+          "sex": "male",
+          "levelActivity": 3
+        }
+      },
+      "DiaryProduct": {
+        "type": "object",
+        "required": ["productId"],
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "Product`s id"
+          }
+        },
+        "example": {
+          "idProduct": "5d51694902b2373622ff5773"
+        }
+      },
+      "DiaryExercise": {
+        "type": "object",
+        "required": ["exercisesId"],
+        "properties": {
+          "exercisesId": {
+            "type": "string",
+            "description": "Exercise`s id"
+          }
+        },
+        "example": {
+          "idExercise": "64f2458d6f67bc34bae4f7f7"
+        }
+      },
+      "RecommendationsProducts": {
+        "type": "object",
+        "required": ["recommend"],
+        "properties": {
+          "recommend": {
+            "type": "bool",
+            "description": "Recommendations bool"
+          }
+        },
+        "example": {
+          "recommend": true
+        }
+      },
+      "ExercisesCategory": {
+        "type": "object",
+        "required": ["category"],
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Exercises`s category",
+            "enum": ["bodyPart", "equipment", "target"]
+          }
+        },
+        "example": {
+          "category": "equipment"
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "RegistrationUserResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email"
+              }
+            }
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token"
+          }
+        },
+        "example": {
+          "user": {
+            "name": "Adrian Cross",
+            "email": "across@mail.com"
+          },
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWEwNzViNzFmNGRlNTAwMTQ5MTZlMTUiLCJpYXQiOjE3MDUwMTQ3MTF9.TD3hhnF8GPyp8oJZRN1BIq1RBs-Bv-sG0zyfNYHyI5Y"
+        }
+      },
+      "SigninUserResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email"
+              }
+            }
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token"
+          }
+        },
+        "example": {
+          "user": {
+            "name": "Adrian Cross",
+            "email": "across@mail.com"
+          },
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWEwNzViNzFmNGRlNTAwMTQ5MTZlMTUiLCJpYXQiOjE3MDUwMTQ3MTF9.TD3hhnF8GPyp8oJZRN1BIq1RBs-Bv-sG0zyfNYHyI5Y"
+        }
+      },
+      "CurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User name"
+          },
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "format": "email"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "Avatar URL"
+          }
+        },
+        "example": {
+          "name": "Adrian Cross",
+          "email": "across@mail.com",
+          "avatarURL": "https://gravatar.com/avatar/29c3250c49d381565a70e08af4a4771c?s=400&d=robohash&r=x"
+        }
+      },
+      "AvatarsUserResponse": {
+        "type": "object",
+        "properties": {
+          "avatarURL": {
+            "type": "string",
+            "descroption": "New avatar URL"
+          }
+        },
+        "example": {
+          "avatarURL": "https://gravatar.com/avatar/29c3250c49d381565a70e08af4a4771c?s=400&d=robohash&r=x"
+        }
+      },
+      "InformationUserResponse": {
+        "type": "object",
+        "properties": {
+          "height": {
+            "type": "number",
+            "description": "User's height"
+          },
+          "currentWeight": {
+            "type": "number",
+            "description": "User's currentWeight"
+          },
+          "desiredWeight": {
+            "type": "number",
+            "description": "User's desiredWeight"
+          },
+          "birthday": {
+            "type": "date",
+            "description": "User's birthday"
+          },
+          "blood": {
+            "type": "number",
+            "description": "User's blood"
+          },
+          "sex": {
+            "type": "string",
+            "description": "User's sex"
+          },
+          "levelActivity": {
+            "type": "number",
+            "description": "User's levelActivity"
+          }
+        },
+        "example": {
+          "height": 150,
+          "currentWeight": 35,
+          "desiredWeight": 35,
+          "birthday": "12-28-1985",
+          "blood": 2,
+          "sex": "male",
+          "levelActivity": 3
+        }
+      },
+      "StatisticsAllResponse": {
+        "type": "object",
+        "properties": {
+          "video": {
+            "type": "number",
+            "description": "The number of video workouts in the app"
+          },
+          "calories": {
+            "type": "number",
+            "description": "The number of calories burned by all registered users"
+          },
+          "users": {
+            "type": "number",
+            "description": "Number of users registered in the app"
+          },
+          "timeTraining": {
+            "type": "number",
+            "description": "Number of hours spent by registered users training"
+          },
+          "workouts": {
+            "type": "number",
+            "description": "Number of workouts performed by registered users"
+          }
+        },
+        "example": {
+          "video": 150,
+          "calories": 35,
+          "users": 35,
+          "timeTraining": 7,
+          "workouts": 2
+        }
+      },
+      "ProductsListResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "idProduct": {
+              "type": "string",
+              "description": "Product`s id"
+            },
+            "title": {
+              "type": "string",
+              "description": "Product`s title"
+            },
+            "category": {
+              "type": "string",
+              "description": "Product`s category"
+            },
+            "calories": {
+              "type": "number",
+              "description": "Product`s calories"
+            },
+            "weight": {
+              "type": "number",
+              "description": "Product`s weight"
+            },
+            "recommend": {
+              "type": "bool",
+              "description": "Recommendations for the consumption of the product "
+            }
+          }
+        },
+        "example": [
+          {
+            "idProduct": "5d51694902b2373622ff5773",
+            "title": "Danbo cheese",
+            "category": "dairy",
+            "calories": 340,
+            "weight": 100,
+            "recommend": true
+          }
+        ]
+      },
+      "ExercisesListResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "idExercise": {
+              "type": "string",
+              "description": "Exercise`s id"
+            },
+            "bodyPart": {
+              "type": "string",
+              "description": "Exercise`s body parts"
+            },
+            "equipment": {
+              "type": "string",
+              "description": "Exercise`s equipment"
+            },
+            "name": {
+              "type": "string",
+              "description": "Exercise`s name"
+            },
+            "target": {
+              "type": "string",
+              "description": "Exercise`s target"
+            },
+            "burnedCalories": {
+              "type": "number",
+              "description": "Burned calories"
+            },
+            "time": {
+              "type": "number",
+              "description": "Exercise`s time"
+            }
+          }
+        },
+        "example": [
+          {
+            "idExercise": "64f2458d6f67bc34bae4f7f7",
+            "bodyPart": "chest",
+            "equipment": "leverage machine",
+            "name": "assisted chest dip (kneeling)",
+            "target": "pectorals",
+            "burnedCalories": 329,
+            "time": 3
+          }
+        ]
+      },
+      "DiaryAddProductResponse": {
+        "type": "object",
+        "properties": {
+          "idProduct": {
+            "type": "string",
+            "description": "Product`s id"
+          },
+          "title": {
+            "type": "string",
+            "description": "Product`s title"
+          },
+          "category": {
+            "type": "string",
+            "description": "Product`s category"
+          },
+          "calories": {
+            "type": "number",
+            "description": "Product`s calories"
+          },
+          "weight": {
+            "type": "number",
+            "description": "Product`s weight"
+          },
+          "recommend": {
+            "type": "bool",
+            "description": "Recommendations for the consumption of the product "
+          }
+        },
+        "example": {
+          "idProduct": "5d51694902b2373622ff5773",
+          "title": "Danbo cheese",
+          "category": "dairy",
+          "calories": 340,
+          "weight": 100,
+          "recommend": true
+        }
+      },
+      "DiaryAddExerciseResponse": {
+        "type": "object",
+        "properties": {
+          "idExercise": {
+            "type": "string",
+            "description": "Exercise`s id"
+          },
+          "bodyPart": {
+            "type": "string",
+            "description": "Exercise`s body parts"
+          },
+          "equipment": {
+            "type": "string",
+            "description": "Exercise`s equipment"
+          },
+          "name": {
+            "type": "string",
+            "description": "Exercise`s name"
+          },
+          "target": {
+            "type": "string",
+            "description": "Exercise`s target"
+          },
+          "burnedCalories": {
+            "type": "number",
+            "description": "Burned calories"
+          },
+          "time": {
+            "type": "number",
+            "description": "Exercise`s time"
+          }
+        },
+        "example": {
+          "idExercise": "64f2458d6f67bc34bae4f7f7",
+          "bodyPart": "chest",
+          "equipment": "leverage machine",
+          "name": "assisted chest dip (kneeling)",
+          "target": "pectorals",
+          "burnedCalories": 329,
+          "time": 3
+        }
+      },
+      "ProductsCategoryAllResponse": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "description": "Product`s category"
+        }
+      }
+    }
+  }
+}
