@@ -1,11 +1,11 @@
-const { Schema, model } = require('mongoose');
-const handleMongooseError = require('../helpers/handleMongooseError') 
+const { Schema, model } = require("mongoose");
+const handleMongooseError = require("../helpers/handleMongooseError");
 
 const diaryProductSchema = new Schema(
   {
     productId: {
       type: String,
-      ref: 'product',
+      ref: "product",
       required: true,
     },
     owner: {
@@ -15,7 +15,7 @@ const diaryProductSchema = new Schema(
     date: {
       type: String,
       required: true,
-      format: 'dd/mm/YYYY',
+      format: "dd/mm/YYYY",
     },
     category: {
       type: String,
@@ -48,8 +48,8 @@ const diaryProductSchema = new Schema(
   { versionKey: false }
 );
 
-diaryProductSchema.post('save', handleMongooseError);
+diaryProductSchema.post("save", handleMongooseError);
 
-const DiaryProduct = model('diaryProduct', diaryProductSchema);
+const DiaryProduct = model("diaryProduct", diaryProductSchema);
 
-module.exports = {  DiaryProduct };
+module.exports = { DiaryProduct };

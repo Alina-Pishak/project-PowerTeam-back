@@ -37,7 +37,7 @@ const productSchema = new Schema(
       },
     },
   },
-  { versionKey: false}
+  { versionKey: false }
 );
 
 const Product = model("product", productSchema);

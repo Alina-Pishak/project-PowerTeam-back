@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 
-
 const typesSchema = new Schema({
   filter: {
     type: String,
@@ -12,10 +11,10 @@ const typesSchema = new Schema({
   },
   imgURL: {
     type: String,
-    requried: true
-  }
-})
+    requried: true,
+  },
+});
 
 const Filters = model("filter", typesSchema);
 
-export default  Filters;
+export default Filters;
