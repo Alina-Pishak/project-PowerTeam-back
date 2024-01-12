@@ -22,8 +22,7 @@ const userSchema = new Schema(
     token: String,
     avatarURL: {
       type: String,
-      required: true,
-      default: "https://www.gravatar.com/avatar/12621825cc13ae051332f9275187e605?s=250",
+      default: "",
     },
     bodyData: {
       type: Boolean,
