@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 //const handleMongooseError = require("../middlewares/handleMongooseError");// !!!
-const handleMongooseError = require('../helpers/handleMongooseError') 
+const handleMongooseError = require("../helpers/handleMongooseError");
 
 const emailRegexp = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 
@@ -9,8 +9,8 @@ const userSchema = new Schema(
     name: {
       type: String,
       required: [true, "Name is required"],
-      //default: 'Igor'
-  },
+      default: "Igor",
+    },
     email: {
       type: String,
       match: emailRegexp,
@@ -25,11 +25,11 @@ const userSchema = new Schema(
     avatarURL: {
       type: String,
       required: true,
-      default: 'https://www.gravatar.com/avatar/12621825cc13ae051332f9275187e605?s=250',
+      default: "https://www.gravatar.com/avatar/12621825cc13ae051332f9275187e605?s=250",
     },
     bodyData: {
       type: Boolean,
-      default: 'false',
+      default: "false",
     },
     height: {
       type: Number,
@@ -46,14 +46,14 @@ const userSchema = new Schema(
     birthday: {
       type: Date,
       min: 18,
-      },
+    },
     blood: {
       type: Number,
       enum: [1, 2, 3, 4],
     },
     sex: {
       type: String,
-      enum: ['male', 'female'],
+      enum: ["male", "female"],
     },
     levelActivity: {
       type: Number,
@@ -64,7 +64,7 @@ const userSchema = new Schema(
       default: 0,
     },
   },
-  { versionKey: false, }
+  { versionKey: false }
 );
 
 userSchema.post("save", handleMongooseError);
