@@ -6,9 +6,13 @@ const { authenticate } = require("../middlewares");
 
 const router = express.Router();
 
-router.post("/register", validateBody(schemas.userSchema), auth.register);
+router.post(
+  "/register",
+  validateBody(schemas.registerJoiSchema),
+  auth.register
+);
 
-router.post("/login", validateBody(schemas.userSchema), auth.login);
+router.post("/login", validateBody(schemas.loginJoiSchema), auth.login);
 
 router.post("/logout", authenticate, auth.logout);
 
