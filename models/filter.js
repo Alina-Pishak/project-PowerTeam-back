@@ -17,4 +17,4 @@ const typesSchema = new Schema({
 
 const Filters = model("filter", typesSchema);
 
-export default Filters;
+module.exports = Filters;
