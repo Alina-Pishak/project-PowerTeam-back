@@ -44,7 +44,7 @@ const userSchema = new Schema(
       min: 35,
     },
     birthday: {
-      type: Date,
+      type: String,
       min: 18,
     },
     blood: {
