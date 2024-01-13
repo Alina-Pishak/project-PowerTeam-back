@@ -1,6 +1,6 @@
 const express = require("express");
 const auth = require("../controllers/auth");
-const { validateBody } = require("../middlewares");
+const { validateBody, upload } = require("../middlewares");
 const schemas = require("../schemas");
 const { authenticate } = require("../middlewares");
 
@@ -13,6 +13,13 @@ router.post("/login", validateBody(schemas.userSchema), auth.login);
 router.post("/logout", authenticate, auth.logout);
 
 router.get("/current", authenticate, auth.getCurrentUser);
+
+router.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  auth.updateAvatar
+);
 
 router.post(
   "/profile-settings",
