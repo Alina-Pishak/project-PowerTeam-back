@@ -1,12 +1,12 @@
 const express = require("express");
 
 const ctrl = require("../controllers/exercises");
-const { authenticate } = require("../middlewares");
+// const { authenticate } = require("../middlewares");
 
 const router = express.Router();
 
-router.get("/", authenticate, ctrl.getAllExercises);
+router.get("/", ctrl.getAllExercises);
 
-router.get("/:category", authenticate, ctrl.getAllByCategory);
+router.get("/:category", ctrl.getAllByCategory);
 
 module.exports = router;
