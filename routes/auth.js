@@ -14,4 +14,11 @@ router.post("/logout", authenticate, auth.logout);
 
 router.get("/current", authenticate, auth.getCurrentUser);
 
+router.post(
+  "/profile-settings",
+  authenticate,
+  validateBody(schemas.profileSettingsSchema),
+  auth.profileSettings
+);
+
 module.exports = router;

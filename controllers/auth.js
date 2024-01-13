@@ -54,9 +54,20 @@ const getCurrentUser = async (req, res) => {
   res.json({ email: user.email, name: user.name, avatarURL: user.avatarURL });
 };
 
+const profileSettings = async (req, res) => {
+  const { _id } = req.user;
+  await User.findByIdAndUpdate(
+    _id,
+    { ...req.body, bodyData: true },
+    { new: true }
+  );
+  res.json({ message: "User data added successfully." });
+};
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   logout: ctrlWrapper(logout),
   getCurrentUser: ctrlWrapper(getCurrentUser),
+  profileSettings: ctrlWrapper(profileSettings),
 };
