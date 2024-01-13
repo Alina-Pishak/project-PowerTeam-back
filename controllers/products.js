@@ -1,5 +1,5 @@
 const  Product  = require("../models/product");
-const { ctrlWrapper } = require("../helpers");
+const { HttpError,ctrlWrapper } = require("../helpers");
 const fs = require("fs");
 const path = require("path");
 
@@ -11,14 +11,17 @@ const listProducts = async (req, res) => {
 
   const categoriesData = fs.readFileSync(categoryPath, "utf8");
   const categories = JSON.parse(categoriesData);
-
+  
+  if (!categories) {
+    throw HttpError(404, "Not found");
+  }
   res.json(categories);
 };
 
 
 const listFilterProducts = async (req, res) => {
   const { title, category } = req.query;
-  const { groupBloodNotAllowed } = req.user;
+  const { blood } = req.user;
 
   const searchConditions = {};
 
@@ -30,11 +33,14 @@ const listFilterProducts = async (req, res) => {
     searchConditions.category = category;
   }
 
-  if (groupBloodNotAllowed) {
-    searchConditions[`groupBloodNotAllowed.${groupBloodNotAllowed}`] = true;
+  if (blood) {
+    searchConditions[`groupBloodNotAllowed.${blood}`] = true;
   }
 
   const result = await Product.find(searchConditions);
+   if (!result) {
+     throw HttpError(404, "Not found");
+   }
   res.json(result);
 };
 
