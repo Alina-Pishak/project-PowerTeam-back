@@ -45,7 +45,7 @@ const diaryProductSchema = new Schema(
       min: 1,
     },
   },
-  { versionKey: false }
+  { versionKey: false, , timestamps: true }
 );
 
 diaryProductSchema.post("save", handleMongooseError);
