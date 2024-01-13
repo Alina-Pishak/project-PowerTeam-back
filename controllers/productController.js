@@ -1,4 +1,4 @@
-const { DiaryProduct } = require("../models/product"); //проверить путь
+const { DiaryProduct } = require("../models/diaryProduct");
 const { HttpError, ctrlWrapper } = require("../helpers");
 const productSchema = require("../schemas/productDiarySchema");
 const Joi = require("joi");

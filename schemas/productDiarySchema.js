@@ -1,4 +1,5 @@
 const Joi = require("joi");
+Joi.extend(require("@joi/date"));
 
 const productSchema = Joi.object({
   productId: Joi.string().required(),
