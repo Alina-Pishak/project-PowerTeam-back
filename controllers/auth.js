@@ -39,22 +39,19 @@ const login = async (req, res, next) => {
   });
 };
 
-const logout = async (req, res, next) => {
-  const { id } = req.user;
-  const user = await User.findByIdAndUpdate(id, { token: "" });
-  if (!user) {
-    throw HttpError(401);
-  }
-  res.status(204).json();
+const logout = async (req, res) => {
+  const { _id: id } = req.user;
+  await User.findByIdAndUpdate(id, { token: "" });
+  res.status(204).send();
 };
 
-const getCurrentUser = async (req, res, next) => {
-  const { id } = req.user;
+const getCurrentUser = async (req, res) => {
+  const { _id: id } = req.user;
   const user = await User.findById(id);
   if (!user) {
     throw HttpError(401);
   }
-  res.status(200).json({ email: user.email, subscription: user.subscription });
+  res.json({ email: user.email, name: user.name, avatarURL: user.avatarURL });
 };
 
 module.exports = {
