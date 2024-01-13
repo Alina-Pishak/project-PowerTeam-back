@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { User } = require("../models/user");
 
-const { DB_HOST } = process.env;
+const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
   const { email, password, name } = req.body;
@@ -29,7 +29,7 @@ const login = async (req, res) => {
     throw HttpError(401, "Email or password is wrong");
   }
   const payload = { id: user._id };
-  const token = jwt.sign(payload, DB_HOST, {
+  const token = jwt.sign(payload, SECRET_KEY, {
     expiresIn: null,
   });
   await User.findByIdAndUpdate(user._id, { token });
