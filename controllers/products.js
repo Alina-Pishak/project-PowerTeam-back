@@ -1,4 +1,4 @@
-const { Product } = require("../models/test");
+const { Product } = require("../models/product");
 
 const { ctrlWrapper } = require("../helpers");
 
@@ -7,24 +7,30 @@ const listProducts = async (req, res) => {
      res.json(result);
 };
 
-const listProductBloodType = async (req, res) => {
-   
-  const userBloodType = req.user.groupBloodNotAllowed;
- 
-  const matchingProducts = await Product.find({
-    [`groupBloodNotAllowed.${userBloodType}`]: true,
-  });
-  const nonMatchingProducts = await Product.find({
-    [`groupBloodNotAllowed.${userBloodType}`]:  false ,
-  });
 
-  res.json({
-    matchingProducts,
-    nonMatchingProducts,
-  });
+const listFilterProducts = async (req, res) => {
+  const { title, category, groupBloodNotAllowed } = req.user;
+
+  const searchConditions = {};
+
+  if (title) {
+    searchConditions.name = { $regex: title, $options: "i" };
+  }
+
+  if (category) {
+    searchConditions.category = category;
+  }
+
+  if (groupBloodNotAllowed) {
+    searchConditions[`groupBloodNotAllowed.${groupBloodNotAllowed}`] = true;
+  }
+
+  const result = await Product.find(searchConditions);
+  res.json(result);
 };
+
 
 module.exports = {
   listProducts: ctrlWrapper(listProducts),
-  listProductBloodType: ctrlWrapper(listProductBloodType),
+  listFilterProducts: ctrlWrapper(listFilterProducts),
 };
