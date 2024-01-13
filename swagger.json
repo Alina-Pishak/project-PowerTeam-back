@@ -43,7 +43,7 @@
     }
   ],
   "paths": {
-    "/auth/signup": {
+    "/user/signup": {
       "post": {
         "tags": ["Auth Controller"],
         "summary": "User registration",
@@ -71,7 +71,7 @@
             }
           },
           "400": {
-            "description": "Missing field"
+            "description": "User creation error"
           },
           "409": {
             "description": "Email in use"
@@ -79,7 +79,7 @@
         }
       }
     },
-    "/auth/signin": {
+    "/user/signin": {
       "post": {
         "tags": ["Auth Controller"],
         "summary": "User login",
@@ -107,7 +107,7 @@
             }
           },
           "400": {
-            "description": "Missing field"
+            "description": "Login error"
           },
           "401": {
             "description": "Email or password is wrong"
@@ -115,25 +115,26 @@
         }
       }
     },
-    "/auth/logout": {
+    "/user/logout": {
       "post": {
         "tags": ["Auth Controller"],
         "summary": "User logout",
         "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Logout's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LogoutUser"
-              }
-            }
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
           }
-        },
+        ],
         "responses": {
           "204": {
             "description": "Successful operation"
+          },
+          "401": {
+            "description": "Missing header with authorization token"
           },
           "404": {
             "description": "Not Found"
@@ -146,6 +147,15 @@
         "tags": ["User Controller"],
         "summary": "Current user",
         "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -158,7 +168,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Missing header with authorization token"
           }
         }
       }
@@ -168,6 +178,15 @@
         "tags": ["User Controller"],
         "summary": "Update user`s avatar",
         "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
+          }
+        ],
         "requestBody": {
           "description": "New avatar object",
           "required": true,
@@ -191,7 +210,10 @@
             }
           },
           "400": {
-            "description": "Missing field"
+            "description": "User`s avatar error"
+          },
+          "401": {
+            "description": "Missing header with authorization token"
           }
         }
       }
@@ -201,6 +223,15 @@
         "tags": ["User Controller"],
         "summary": "Information user",
         "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
+          }
+        ],
         "requestBody": {
           "description": "Main information about user",
           "required": true,
@@ -224,7 +255,10 @@
             }
           },
           "400": {
-            "description": "Missing field"
+            "description": "User`s information error"
+          },
+          "401": {
+            "description": "Missing header with authorization token"
           }
         }
       }
@@ -234,10 +268,9 @@
       "get": {
         "tags": ["Statistics Controller"],
         "summary": "Statistics app",
-        "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
-            "description": "Successful operation",
+            "description": "Information found",
             "content": {
               "application/json": {
                 "schema": {
@@ -246,8 +279,8 @@
               }
             }
           },
-          "400": {
-            "description": "Missing field"
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -257,20 +290,32 @@
       "get": {
         "tags": ["Diary Controller"],
         "summary": "User`s diary products ",
-        "security": [{ "Bearer": [] }],
+        "security": [],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful operation",
+            "description": "Information found",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/securitySchemes/ProductsListResponse"
+                  "$ref": "#/components/securitySchemes/DiaryProductsListResponse"
                 }
               }
             }
           },
-          "400": {
-            "description": "Missing field"
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       },
@@ -278,17 +323,22 @@
         "tags": ["Diary Controller"],
         "summary": "User`s diary products ",
         "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Add product in diary",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DiaryProduct"
-              }
-            }
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
+          },
+          {
+            "in": "path",
+            "name": "Product`s id",
+            "required": true,
+            "type": "string",
+            "description": "Product`s id"
           }
-        },
+        ],
         "responses": {
           "201": {
             "description": "Successful operation",
@@ -301,7 +351,10 @@
             }
           },
           "400": {
-            "description": "Missing field"
+            "description": "Product`s id error"
+          },
+          "401": {
+            "description": "Missing header with authorization token"
           }
         }
       },
@@ -309,23 +362,31 @@
         "tags": ["Diary Controller"],
         "summary": "User`s diary exercises ",
         "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Delete exercise in diary",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DiaryProduct"
-              }
-            }
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
+          },
+          {
+            "in": "path",
+            "name": "idProduct",
+            "required": true,
+            "type": "string",
+            "description": "Product`s id"
           }
-        },
+        ],
         "responses": {
           "204": {
             "description": "Successful operation"
           },
           "400": {
-            "description": "Missing field"
+            "description": "Product`s id error"
+          },
+          "401": {
+            "description": "Missing header with authorization token"
           }
         }
       }
@@ -335,19 +396,31 @@
         "tags": ["Diary Controller"],
         "summary": "User`s diary exercises ",
         "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/securitySchemes/ExercisesListResponse"
+                  "$ref": "#/components/securitySchemes/DiaryExercisesListResponse"
                 }
               }
             }
           },
-          "400": {
-            "description": "Missing field"
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       },
@@ -355,17 +428,22 @@
         "tags": ["Diary Controller"],
         "summary": "User`s diary exercises ",
         "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Add exercise in diary",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DiaryExercise"
-              }
-            }
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
+          },
+          {
+            "in": "path",
+            "name": "Exercise`s id",
+            "required": true,
+            "type": "string",
+            "description": "Exercise`s id"
           }
-        },
+        ],
         "responses": {
           "201": {
             "description": "Successful operation",
@@ -378,7 +456,10 @@
             }
           },
           "400": {
-            "description": "Missing field"
+            "description": "Product`s id error"
+          },
+          "401": {
+            "description": "Missing header with authorization token"
           }
         }
       },
@@ -386,23 +467,31 @@
         "tags": ["Diary Controller"],
         "summary": "User`s diary exercises ",
         "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Delete exercise in diary",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DiaryExercise"
-              }
-            }
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
+          },
+          {
+            "in": "path",
+            "name": "Exercise`s id",
+            "required": true,
+            "type": "string",
+            "description": "Exercise`s id"
           }
-        },
+        ],
         "responses": {
           "204": {
             "description": "Successful operation"
           },
           "400": {
-            "description": "Missing field"
+            "description": "Product`s id error"
+          },
+          "401": {
+            "description": "Missing header with authorization token"
           }
         }
       }
@@ -413,6 +502,33 @@
         "tags": ["Products Controller"],
         "summary": "All Products list",
         "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
+          },
+          {
+            "in": "path",
+            "name": "Product`s search",
+            "type": "string",
+            "description": "Search products"
+          },
+          {
+            "in": "path",
+            "name": "Categories params",
+            "type": "string",
+            "description": "Category's title for product's list"
+          },
+          {
+            "in": "path",
+            "name": "Recommendations params",
+            "type": "string",
+            "description": "Recommendations or not recommendations product`s list"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -425,7 +541,10 @@
             }
           },
           "401": {
-            "description": "Missing field"
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -435,6 +554,15 @@
         "tags": ["Products Controller"],
         "summary": "Products category",
         "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -447,40 +575,10 @@
             }
           },
           "401": {
-            "description": "Missing field"
-          }
-        }
-      }
-    },
-    "/products/recommend": {
-      "get": {
-        "tags": ["Products Controller"],
-        "summary": "Recommendations products",
-        "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Find recommendations or no recommendations product`s list",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RecommendationsProducts"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/securitySchemes/ProductsListResponse"
-                }
-              }
-            }
+            "description": "Missing header with authorization token"
           },
-          "400": {
-            "description": "Missing field"
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -491,6 +589,15 @@
         "tags": ["Exercises Controller"],
         "summary": "All exercises list",
         "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -502,41 +609,52 @@
               }
             }
           },
-          "400": {
-            "description": "Missing field"
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
-    "/exercises/{:category}": {
+    "/exercises/category": {
       "get": {
         "tags": ["Exercises Controller"],
         "summary": "All exercises by body parts/muscles/equipment",
         "security": [{ "Bearer": [] }],
-        "requestBody": {
-          "description": "Exercises`s category",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ExercisesCategory"
-              }
-            }
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "User`s token"
+          },
+          {
+            "in": "path",
+            "name": "Category`s title",
+            "required": true,
+            "type": "string",
+            "description": "One category with list: bodyparts, muscles or equipment"
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/securitySchemes/ExercisesListResponse"
+                  "$ref": "#/components/securitySchemes/ExercisesCategoriesListResponse"
                 }
               }
             }
           },
-          "400": {
-            "description": "Missing field"
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -668,19 +786,6 @@
           "levelActivity": 3
         }
       },
-      "DiaryProduct": {
-        "type": "object",
-        "required": ["productId"],
-        "properties": {
-          "productId": {
-            "type": "string",
-            "description": "Product`s id"
-          }
-        },
-        "example": {
-          "idProduct": "5d51694902b2373622ff5773"
-        }
-      },
       "DiaryExercise": {
         "type": "object",
         "required": ["exercisesId"],
@@ -801,12 +906,64 @@
           "avatarURL": {
             "type": "string",
             "description": "Avatar URL"
+          },
+          "userParams": {
+            "type": "object",
+            "properties": {
+              "bodyData": {
+                "type": "bool",
+                "description": "Availability of user data"
+              },
+              "height": {
+                "type": "number",
+                "description": "User's height"
+              },
+              "currentWeight": {
+                "type": "number",
+                "description": "User's currentWeight"
+              },
+              "desiredWeight": {
+                "type": "number",
+                "description": "User's desiredWeight"
+              },
+              "birthday": {
+                "type": "date",
+                "description": "User's birthday"
+              },
+              "blood": {
+                "type": "number",
+                "description": "User's blood"
+              },
+              "sex": {
+                "type": "string",
+                "description": "User's sex"
+              },
+              "levelActivity": {
+                "type": "number",
+                "description": "User's levelActivity"
+              },
+              "bmr": {
+                "type": "number",
+                "description": "User's  Basal Metabolic Rate"
+              }
+            }
           }
         },
         "example": {
           "name": "Adrian Cross",
           "email": "across@mail.com",
-          "avatarURL": "https://gravatar.com/avatar/29c3250c49d381565a70e08af4a4771c?s=400&d=robohash&r=x"
+          "avatarURL": "https://gravatar.com/avatar/29c3250c49d381565a70e08af4a4771c?s=400&d=robohash&r=x",
+          "userParams": {
+            "bodyData": true,
+            "height": 150,
+            "currentWeight": 35,
+            "desiredWeight": 35,
+            "birthday": "12-28-1985",
+            "blood": 2,
+            "sex": "male",
+            "levelActivity": 3,
+            "bmr": 1800
+          }
         }
       },
       "AvatarsUserResponse": {
@@ -895,37 +1052,35 @@
           "workouts": 2
         }
       },
-      "ProductsListResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "idProduct": {
-              "type": "string",
-              "description": "Product`s id"
-            },
-            "title": {
-              "type": "string",
-              "description": "Product`s title"
-            },
-            "category": {
-              "type": "string",
-              "description": "Product`s category"
-            },
-            "calories": {
-              "type": "number",
-              "description": "Product`s calories"
-            },
-            "weight": {
-              "type": "number",
-              "description": "Product`s weight"
-            },
-            "recommend": {
-              "type": "bool",
-              "description": "Recommendations for the consumption of the product "
-            }
+      "DiaryProductsListResponse": {
+        "type": "object",
+        "properties": {
+          "idProduct": {
+            "type": "string",
+            "description": "Product`s id"
+          },
+          "title": {
+            "type": "string",
+            "description": "Product`s title"
+          },
+          "category": {
+            "type": "string",
+            "description": "Product`s category"
+          },
+          "calorieseaten": {
+            "type": "number",
+            "description": "Product`s calories"
+          },
+          "weighteaten": {
+            "type": "number",
+            "description": "Product`s weight"
+          },
+          "recommend": {
+            "type": "bool",
+            "description": "Recommendations for the consumption of the product "
           }
         },
+
         "example": [
           {
             "idProduct": "5d51694902b2373622ff5773",
@@ -937,7 +1092,7 @@
           }
         ]
       },
-      "ExercisesListResponse": {
+      "DiaryExercisesListResponse": {
         "type": "array",
         "items": {
           "type": "object",
@@ -946,7 +1101,7 @@
               "type": "string",
               "description": "Exercise`s id"
             },
-            "bodyPart": {
+            "bodypart": {
               "type": "string",
               "description": "Exercise`s body parts"
             },
@@ -1063,11 +1218,97 @@
           "time": 3
         }
       },
+      "ProductsListResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "idProduct": {
+              "type": "string",
+              "description": "Product`s id"
+            },
+            "title": {
+              "type": "string",
+              "description": "Product`s title"
+            },
+            "category": {
+              "type": "string",
+              "description": "Product`s category"
+            },
+            "calories": {
+              "type": "number",
+              "description": "Product`s calories"
+            },
+            "weight": {
+              "type": "number",
+              "description": "Product`s weight"
+            },
+            "recommend": {
+              "type": "bool",
+              "description": "Recommendations for the consumption of the product "
+            }
+          }
+        },
+        "example": [
+          {
+            "idProduct": "5d51694902b2373622ff5773",
+            "title": "Danbo cheese",
+            "category": "dairy",
+            "calories": 340,
+            "weight": 100,
+            "recommend": true
+          }
+        ]
+      },
       "ProductsCategoryAllResponse": {
         "type": "array",
         "items": {
           "type": "string",
           "description": "Product`s category"
+        }
+      },
+      "ExercisesListResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "idExercise": {
+              "type": "string",
+              "description": "Exercise`s id"
+            },
+            "bodypart": {
+              "type": "string",
+              "description": "Exercise`s body parts"
+            },
+            "equipment": {
+              "type": "string",
+              "description": "Exercise`s equipment"
+            },
+            "name": {
+              "type": "string",
+              "description": "Exercise`s name"
+            },
+            "target": {
+              "type": "string",
+              "description": "Exercise`s target"
+            }
+          }
+        },
+        "example": [
+          {
+            "idExercise": "64f2458d6f67bc34bae4f7f7",
+            "bodyPart": "chest",
+            "equipment": "leverage machine",
+            "name": "assisted chest dip (kneeling)",
+            "target": "pectorals"
+          }
+        ]
+      },
+      "ExercisesCategoriesListResponse": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "description": "Exercise`s category"
         }
       }
     }
