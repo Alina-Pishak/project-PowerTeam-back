@@ -46,12 +46,40 @@ const logout = async (req, res) => {
 };
 
 const getCurrentUser = async (req, res) => {
-  const { _id: id } = req.user;
+  const {
+    _id: id,
+    email,
+    name,
+    avatarURL,
+    bodyData,
+    height,
+    currentWeight,
+    desiredWeight,
+    birthday,
+    blood,
+    sex,
+    levelActivity,
+    bmr,
+  } = req.user;
   const user = await User.findById(id);
   if (!user) {
     throw HttpError(401);
   }
-  res.json({ email: user.email, name: user.name, avatarURL: user.avatarURL });
+
+  res.json({
+    email,
+    name,
+    avatarURL, userParams: {
+    bodyData,
+    height,
+    currentWeight,
+    desiredWeight,
+    birthday,
+    blood,
+    sex,
+    levelActivity,
+    bmr}
+  });
 };
 
 const profileSettings = async (req, res) => {
