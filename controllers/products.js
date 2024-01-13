@@ -1,4 +1,4 @@
-const { Product } = require("../models/product");
+const  Product  = require("../models/product");
 const { ctrlWrapper } = require("../helpers");
 const fs = require("fs");
 const path = require("path");
