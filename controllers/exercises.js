@@ -1,9 +1,9 @@
 const { ctrlWrapper, HttpError } = require("../helpers");
-const Exercise = require("../models/exercise");
-const Filters = require("../models/filter");
+const { Exercises } = require("../models/exercise");
+const { Filters } = require("../models/filter");
 
 const getAllExercises = async (req, res) => {
-  const result = await Exercise.find();
+  const result = await Exercises.find();
   if (!result) {
     throw HttpError(404, "Not found");
   }
@@ -21,7 +21,7 @@ const getAllByCategory = async (req, res) => {
     muscles: "Muscles",
     equipment: "Equipment",
   };
-  const result = await ExercisesFilter.find({
+  const result = await Filters.find({
     filter: filterCategory[category],
   });
 
