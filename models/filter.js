@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+const { Schema, model } = require("mongoose");
 
 const typesSchema = new Schema({
   filter: {
@@ -11,7 +11,7 @@ const typesSchema = new Schema({
   },
   imgURL: {
     type: String,
-    requried: true,
+    required: true,
   },
 });
 
