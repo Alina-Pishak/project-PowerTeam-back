@@ -1,6 +1,6 @@
 const { ctrlWrapper, HttpError } = require("../helpers");
-const { Exercises } = require("../models/exercise");
-const { Filters } = require("../models/filter");
+const Exercises = require("../models/exercise");
+const Filters = require("../models/filter");
 
 const getAllExercises = async (req, res) => {
   const result = await Exercises.find();
