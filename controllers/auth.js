@@ -60,7 +60,6 @@ const logout = async (req, res) => {
 
 const getCurrentUser = async (req, res) => {
   const {
-    _id: id,
     email,
     name,
     avatarURL,
@@ -74,10 +73,6 @@ const getCurrentUser = async (req, res) => {
     levelActivity,
     bmr,
   } = req.user;
-  const user = await User.findById(id);
-  if (!user) {
-    throw HttpError(401);
-  }
 
   res.json({
     email,
