@@ -15,6 +15,7 @@ const diaryExerciseSchema = new Schema(
     date: {
       type: String,
       format: "dd/mm/YYYY",
+      required: true,
     },
     time: {
       type: Number,
@@ -48,8 +49,6 @@ const diaryExerciseSchema = new Schema(
 
 diaryExerciseSchema.post("save", handleMongooseError);
 
-const diaryExercise = model("diaryExercise", diaryExerciseSchema);
+const DiaryExercise = model("diaryExercise", diaryExerciseSchema);
 
-module.exports = {
-  diaryExercise,
-};
+module.exports = DiaryExercise;
