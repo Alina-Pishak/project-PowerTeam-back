@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const createExercise = Joi.object({
+  exerciseId: Joi.string().required(),
   date: Joi.date().iso().required().messages({
     "date.base":
       "Date must have any valid ISO date format, for example YYYY-MM-DD.",
@@ -10,7 +11,7 @@ const createExercise = Joi.object({
 });
 
 const getExerciseByDate = Joi.object({
-  date: Joi.date().required().messages({
+  date: Joi.date().iso().required().messages({
     "date.base":
       "Date must have any valid ISO date format, for example YYYY-MM-DD.",
     "any.required": "date field is required.",

@@ -2,8 +2,9 @@ const express = require("express");
 const ctrl = require("../controllers/dairyExercise");
 const {
   validateBody,
-  isValidExercise,
   validateOneStringParams,
+  isValidExerciseBody,
+  isValidExerciseParams,
 } = require("../middlewares");
 const schemas = require("../schemas");
 const { authenticate } = require("../middlewares");
@@ -11,17 +12,17 @@ const { authenticate } = require("../middlewares");
 const router = express.Router();
 
 router.post(
-  "/:exerciseId",
+  "/",
   authenticate,
   validateBody(schemas.dairyExercise.createExercise),
-  isValidExercise,
+  isValidExerciseBody,
   ctrl.createExercise
 );
 
 router.delete(
   "/:exerciseId",
   authenticate,
-  isValidExercise,
+  isValidExerciseParams,
   ctrl.deleteExercise
 );
 
