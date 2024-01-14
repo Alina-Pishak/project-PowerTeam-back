@@ -6,6 +6,7 @@ const authRouter = require("./routes/auth");
 const exercisesRouter = require("./routes/exercises");
 const productRouter = require("./routes/products");
 const statisticRoute = require("./routes/statistic")
+const diaryExercises = require("./routes/dairyExercise"
 
 const app = express();
 const swaggerUi = require("swagger-ui-express");
@@ -20,6 +21,8 @@ app.use(express.static("public"));
 
 app.use("/users", authRouter);
 app.use("/exercises", exercisesRouter);
+app.use("/products", productRouter);
+app.use("/diary/exercises", diaryExercises);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/products", productRouter)
 app.use("/", statisticRoute)

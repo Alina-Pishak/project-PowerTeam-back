@@ -5,20 +5,20 @@ const { User } = require("../models/user");
 
 const { SECRET_KEY } = process.env;
 
-const register = async (req, res, next) => {
-  const { email, password } = req.body;
+const register = async (req, res) => {
+  const { email, password, name } = req.body;
   const user = await User.findOne({ email });
   if (user) {
     throw HttpError(409, "Email in use");
   }
   const hashPassword = await bcrypt.hash(password, 10);
-  const newUser = await User.create({ email, password: hashPassword });
+  const newUser = await User.create({ email, password: hashPassword, name });
   res.status(201).json({
-    user: { email: newUser.email, subscription: newUser.subscription },
+    user: { name: newUser.name, email: newUser.email },
   });
 };
 
-const login = async (req, res, next) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
@@ -30,12 +30,25 @@ const login = async (req, res, next) => {
   }
   const payload = { id: user._id };
   const token = jwt.sign(payload, SECRET_KEY, {
-    expiresIn: "2h",
+    expiresIn: null,
   });
   await User.findByIdAndUpdate(user._id, { token });
   res.status(200).json({
     token,
-    user: { email: user.email, subscription: user.subscription },
+    user: {
+      email: user.email,
+      name: user.name,
+      avatarURL: user.avatarURL,
+      bodyData: user.bodyData,
+      height: user.height,
+      currentWeight: user.currentWeight,
+      desiredWeight: user.desiredWeight,
+      birthday: user.birthday,
+      blood: user.blood,
+      sex: user.sex,
+      levelActivity: user.levelActivity,
+      bmr: user.bmr,
+    },
   });
 };
 
@@ -47,7 +60,6 @@ const logout = async (req, res) => {
 
 const getCurrentUser = async (req, res) => {
   const {
-    _id: id,
     email,
     name,
     avatarURL,
@@ -61,24 +73,22 @@ const getCurrentUser = async (req, res) => {
     levelActivity,
     bmr,
   } = req.user;
-  const user = await User.findById(id);
-  if (!user) {
-    throw HttpError(401);
-  }
 
   res.json({
     email,
     name,
-    avatarURL, userParams: {
-    bodyData,
-    height,
-    currentWeight,
-    desiredWeight,
-    birthday,
-    blood,
-    sex,
-    levelActivity,
-    bmr}
+    avatarURL,
+    userParams: {
+      bodyData,
+      height,
+      currentWeight,
+      desiredWeight,
+      birthday,
+      blood,
+      sex,
+      levelActivity,
+      bmr,
+    },
   });
 };
 
