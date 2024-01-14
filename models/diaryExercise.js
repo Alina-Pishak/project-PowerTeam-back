@@ -43,7 +43,7 @@ const diaryExerciseSchema = new Schema(
       required: true,
     },
   },
-  { versionKey: false, , timestamps: true }
+  { versionKey: false, timestamps: true }
 );
 
 diaryExerciseSchema.post("save", handleMongooseError);
