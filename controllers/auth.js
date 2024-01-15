@@ -92,6 +92,14 @@ const getCurrentUser = async (req, res) => {
 
 const profileSettings = async (req, res) => {
   const { _id } = req.user;
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (user && user._id !== _id) {
+    throw HttpError(400, "Email is already in use by another user");
+  }
+
   const updateUser = await User.findByIdAndUpdate(
     _id,
     { ...req.body, bodyData: true },
