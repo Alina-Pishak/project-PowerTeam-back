@@ -40,14 +40,14 @@ const deleteExercise = async (req, res) => {
 const getDiaryByDate = async (req, res) => {
   const { _id: owner } = req.user;
   const { date } = req.params;
-  const dairyProducts = await DiaryProduct.find({ date }).where("owner", owner);
-  const dairyExercises = await DiaryExercise.find({ date }).where(
-    "owner",
-    owner
-  );
+  let dairyProducts = await DiaryProduct.find({ date }).where("owner", owner);
+  let dairyExercises = await DiaryExercise.find({ date }).where("owner", owner);
 
-  if (!dairyExercises || !dairyProducts) {
-    throw HttpError(404, "Not found");
+  if (!dairyExercises.length) {
+    dairyExercises = null;
+  }
+  if (!dairyProducts.length) {
+    dairyProducts = null;
   }
   res.json({ dairyExercises, dairyProducts });
 };
