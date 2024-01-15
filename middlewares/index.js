@@ -3,8 +3,10 @@ const isValidId = require("./isValidId");
 const authenticate = require("./authenticate");
 const upload = require("./upload");
 const isValidExerciseBody = require("./isValidExerciseBody");
-const validateOneStringParams = require("./validateOneStringParams");
 const isValidExerciseParams = require("./isValidExerciseParams");
+const normalizeDateInBody = require("./normalizeDateInBody");
+const normalizeDateInParam = require("./normalizeDateInParam");
+const validateRequestParam = require("./validateRequestParam");
 
 module.exports = {
   validateBody,
@@ -12,6 +14,8 @@ module.exports = {
   authenticate,
   upload,
   isValidExerciseBody,
-  validateOneStringParams,
+  validateRequestParam,
   isValidExerciseParams,
+  normalizeDateInBody,
+  normalizeDateInParam,
 };
