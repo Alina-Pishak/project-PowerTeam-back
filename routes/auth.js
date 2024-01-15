@@ -19,14 +19,14 @@ router.post("/logout", authenticate, auth.logout);
 router.get("/current", authenticate, auth.getCurrentUser);
 
 router.patch(
-  "/avatars",
+  "/avatar",
   authenticate,
   upload.single("avatar"),
   auth.updateAvatar
 );
 
-router.post(
-  "/profile-settings",
+router.patch(
+  "/inform",
   authenticate,
   validateBody(schemas.profileSettingsSchema),
   auth.profileSettings
