@@ -1,15 +1,19 @@
 const Joi = require("joi");
-Joi.extend(require("@joi/date"));
 
 const productSchema = Joi.object({
   productId: Joi.string().required().messages({
     "any.required": "The product ID field is required.",
   }),
-  date: Joi.date().format("dd/mm/YYYY").required().messages({
+  date: Joi.date().iso().required().messages({
+    "date.base":
+      "Date must have a valid ISO date format, for example YYYY-MM-DD.",
     "any.required": "The date field is required.",
-    "date.format": "Invalid date format. Please use dd/mm/YYYY format.",
   }),
-
+  time: Joi.number().min(1).max(180).required().messages({
+    "number.min": "Time must be at least 1.",
+    "number.max": "Time must be less than or equal to 180.",
+    "any.required": "The time field is required.",
+  }),
   amount: Joi.number().min(1).required().messages({
     "any.required": "The amount field is required.",
     "number.min": "The amount must be greater than or equal to 1.",
@@ -21,8 +25,3 @@ const productSchema = Joi.object({
 });
 
 module.exports = { productSchema };
-
-// date: Joi.string().required().messages({
-//     "any.required": "The date field is required.",
-//     "date.format": "Invalid date format. Please use dd/mm/YYYY format.",
-//   }),

@@ -1,11 +1,12 @@
-const { HttpError, ctrlWrapper } = require("../helpers");
+const { dateToShortFormat, HttpError, ctrlWrapper } = require("../helpers");
 const { DiaryProduct } = require("../models/diaryProduct");
 const Product = require("../models/product");
 const { User } = require("../models/user");
 
 const addProduct = async (req, res) => {
   const { _id: owner } = req.user;
-  const { amount, weight, productId, date } = req.body;
+  const { amount, calories, productId, date } = req.body;
+  req.body.date = dateToShortFormat(date);
   const resultProduct = await Product.findById(productId);
 
   if (!resultProduct) {
@@ -22,11 +23,9 @@ const addProduct = async (req, res) => {
     category: resultProduct.category,
     title: resultProduct.title,
     recommended: resultProduct.groupBloodNotAllowed[blood],
-    calories: resultProduct.calories,
+    calories,
     amount,
-    weight,
   });
-  //delete later weight
 
   res.status(201).json(result);
 };
@@ -45,8 +44,8 @@ const deleteById = async (req, res) => {
 
 const getAllByDate = async (req, res) => {
   const { _id: owner } = req.user;
-  const { date } = req.query;
-  console.log(req.query);
+  const { date } = req.params;
+  req.params.date = dateToShortFormat(date);
   const result = await DiaryProduct.find({
     owner,
     date,

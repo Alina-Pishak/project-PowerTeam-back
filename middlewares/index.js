@@ -5,6 +5,7 @@ const upload = require("./upload");
 const isValidExerciseBody = require("./isValidExerciseBody");
 const validateOneStringParams = require("./validateOneStringParams");
 const isValidExerciseParams = require("./isValidExerciseParams");
+const isValidProductParams = require("./isValidProductParams.js");
 
 module.exports = {
   validateBody,
@@ -14,4 +15,5 @@ module.exports = {
   isValidExerciseBody,
   validateOneStringParams,
   isValidExerciseParams,
+  isValidProductParams,
 };
