@@ -1,7 +1,5 @@
 const Joi = require("joi");
-
-// eslint-disable-next-line no-useless-escape
-const emailRegexp = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+const { emailRegexp } = require("../helpers");
 
 const registerJoiSchema = Joi.object({
   name: Joi.string().required(),
