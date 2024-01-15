@@ -92,12 +92,21 @@ const getCurrentUser = async (req, res) => {
 
 const profileSettings = async (req, res) => {
   const { _id } = req.user;
-  await User.findByIdAndUpdate(
+  const updateUser = await User.findByIdAndUpdate(
     _id,
     { ...req.body, bodyData: true },
     { new: true }
   );
-  res.json({ message: "User data added successfully." });
+  res.json({
+    height: updateUser.height,
+    currentWeight: updateUser.currentWeight,
+    desiredWeight: updateUser.desiredWeight,
+    birthday: updateUser.birthday,
+    blood: updateUser.blood,
+    sex: updateUser.sex,
+    levelActivity: updateUser.levelActivity,
+    bmr: updateUser.bmr,
+  });
 };
 
 const updateAvatar = async (req, res) => {

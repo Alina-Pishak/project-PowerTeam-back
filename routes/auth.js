@@ -26,7 +26,7 @@ router.patch(
 );
 
 router.patch(
-  "/inform",
+  "/profile",
   authenticate,
   validateBody(schemas.profileSettingsSchema),
   auth.profileSettings
