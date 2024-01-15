@@ -40,16 +40,16 @@ const deleteExercise = async (req, res) => {
 const getDiaryByDate = async (req, res) => {
   const { _id: owner } = req.user;
   const { date } = req.params;
-  let dairyProducts = await DiaryProduct.find({ date }).where("owner", owner);
-  let dairyExercises = await DiaryExercise.find({ date }).where("owner", owner);
+  let diaryProducts = await DiaryProduct.find({ date }).where("owner", owner);
+  let diaryExercises = await DiaryExercise.find({ date }).where("owner", owner);
 
-  if (!dairyExercises.length) {
-    dairyExercises = null;
+  if (!diaryExercises.length) {
+    diaryExercises = null;
   }
-  if (!dairyProducts.length) {
-    dairyProducts = null;
+  if (!diaryProducts.length) {
+    diaryProducts = null;
   }
-  res.json({ dairyExercises, dairyProducts });
+  res.json({ diaryExercises, diaryProducts });
 };
 
 module.exports = {
