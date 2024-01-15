@@ -9,11 +9,7 @@ const productSchema = Joi.object({
       "Date must have a valid ISO date format, for example YYYY-MM-DD.",
     "any.required": "The date field is required.",
   }),
-  time: Joi.number().min(1).max(180).required().messages({
-    "number.min": "Time must be at least 1.",
-    "number.max": "Time must be less than or equal to 180.",
-    "any.required": "The time field is required.",
-  }),
+
   amount: Joi.number().min(1).required().messages({
     "any.required": "The amount field is required.",
     "number.min": "The amount must be greater than or equal to 1.",

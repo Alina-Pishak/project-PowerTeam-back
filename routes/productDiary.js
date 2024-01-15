@@ -4,12 +4,18 @@ const {
   authenticate,
   validateBody,
   isValidProductParams,
+  normalizeDateInBody,
 } = require("../middlewares");
 const { productSchema } = require("../schemas/productDiarySchema");
 const router = express.Router();
-// const combinedController = require("../controllers/getAllByDate");
 
-router.post("/", authenticate, validateBody(productSchema), ctrl.addProduct);
+router.post(
+  "/",
+  authenticate,
+  validateBody(productSchema),
+  normalizeDateInBody,
+  ctrl.addProduct
+);
 router.delete(
   "/:productId",
   authenticate,
@@ -17,8 +23,5 @@ router.delete(
   ctrl.deleteById
 );
 router.get("/", authenticate, ctrl.getAllByDate);
-// router.get(
-//   "/combined-data/:date", authenticate, combinedController.getProductsAndExercisesByDate
-// );
 
 module.exports = router;
