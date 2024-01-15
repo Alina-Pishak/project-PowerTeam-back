@@ -39,11 +39,6 @@ const diaryProductSchema = new Schema(
       required: true,
       min: 1,
     },
-    weight: {
-      type: Number,
-      required: true,
-      min: 1,
-    },
   },
   { versionKey: false }
 );
