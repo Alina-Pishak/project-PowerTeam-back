@@ -1,6 +1,6 @@
 const { HttpError } = require("../helpers");
 
-const validateOneStringParams = (schema) => {
+const validateRequestParam = (schema) => {
   const func = (req, res, next) => {
     const { error } = schema.validate(req.params);
     if (error) {
@@ -12,4 +12,4 @@ const validateOneStringParams = (schema) => {
   return func;
 };
 
-module.exports = validateOneStringParams;
+module.exports = validateRequestParam;
