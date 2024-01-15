@@ -1,30 +1,25 @@
 const DiaryExercise = require("../models/diaryExercise");
+const { DiaryProduct } = require("../models/diaryProduct");
 const Exercise = require("../models/exercise");
-const { dateToShortFormat, HttpError, ctrlWrapper } = require("../helpers");
+const { HttpError, ctrlWrapper } = require("../helpers");
 
 const createExercise = async (req, res) => {
   const { _id: owner } = req.user;
-  const { time: actualTime, date, exerciseId } = req.body;
-  req.body.date = dateToShortFormat(date);
-  const exercise = await Exercise.findById(exerciseId);
-  req.exercise = exercise;
-  const {
-    time: basicTime,
-    burnedCalories: basicCalories,
-    bodyPart,
-    equipment,
-    name,
-    target,
-  } = req.exercise;
+  const { time, date, exerciseId, burnedCalories } = req.body;
+  const { bodyPart, equipment, name, target } = await Exercise.findById(
+    exerciseId
+  );
 
   const result = await DiaryExercise.create({
     owner,
-    ...req.body,
+    exerciseId,
+    date,
+    time,
     bodyPart,
     equipment,
     name,
     target,
-    burnedCalories: ((basicCalories / basicTime) * actualTime).toFixed(2),
+    burnedCalories,
   });
   res.status(201).json(result);
 };
@@ -42,19 +37,23 @@ const deleteExercise = async (req, res) => {
   res.sendStatus(204);
 };
 
-const getExerciseByDate = async (req, res) => {
+const getDiaryByDate = async (req, res) => {
   const { _id: owner } = req.user;
   const { date } = req.params;
-  req.params.date = dateToShortFormat(date);
-  const result = await DiaryExercise.find(req.params).where("owner", owner);
-  if (!result) {
-    throw HttpError(404, "Not found");
+  let dairyProducts = await DiaryProduct.find({ date }).where("owner", owner);
+  let dairyExercises = await DiaryExercise.find({ date }).where("owner", owner);
+
+  if (!dairyExercises.length) {
+    dairyExercises = null;
   }
-  res.json(result);
+  if (!dairyProducts.length) {
+    dairyProducts = null;
+  }
+  res.json({ dairyExercises, dairyProducts });
 };
 
 module.exports = {
   createExercise: ctrlWrapper(createExercise),
   deleteExercise: ctrlWrapper(deleteExercise),
-  getExerciseByDate: ctrlWrapper(getExerciseByDate),
+  getDiaryByDate: ctrlWrapper(getDiaryByDate),
 };

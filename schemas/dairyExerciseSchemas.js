@@ -8,9 +8,10 @@ const createExercise = Joi.object({
     "any.required": "missing required date field",
   }),
   time: Joi.number().min(1).max(180).required(),
+  burnedCalories: Joi.number().required(),
 });
 
-const getExerciseByDate = Joi.object({
+const getDairyByDate = Joi.object({
   date: Joi.date().iso().required().messages({
     "date.base":
       "Date must have any valid ISO date format, for example YYYY-MM-DD.",
@@ -19,7 +20,7 @@ const getExerciseByDate = Joi.object({
 });
 const schemas = {
   createExercise,
-  getExerciseByDate,
+  getDairyByDate,
 };
 
 module.exports = schemas;
