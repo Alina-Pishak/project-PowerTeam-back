@@ -1,8 +1,9 @@
 const Joi = require("joi");
+const { emailRegexp } = require("../helpers");
 
 const profileSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().required(),
+  name: Joi.string(),
+  email: Joi.string().pattern(emailRegexp),
   height: Joi.number().positive().required(),
   currentWeight: Joi.number().positive().required(),
   desiredWeight: Joi.number().positive().required(),
