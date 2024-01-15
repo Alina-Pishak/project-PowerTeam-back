@@ -60,7 +60,6 @@ const logout = async (req, res) => {
 
 const getCurrentUser = async (req, res) => {
   const {
-    _id: id,
     email,
     name,
     avatarURL,
@@ -74,10 +73,6 @@ const getCurrentUser = async (req, res) => {
     levelActivity,
     bmr,
   } = req.user;
-  const user = await User.findById(id);
-  if (!user) {
-    throw HttpError(401);
-  }
 
   res.json({
     email,
@@ -107,10 +102,26 @@ const profileSettings = async (req, res) => {
   res.json({ message: "User data added successfully." });
 };
 
+const updateAvatar = async (req, res) => {
+  const { _id } = req.user;
+  if (!req.file) {
+    throw HttpError(400, "File not found");
+  }
+
+  const avatarURL = req.file.path;
+
+  await User.findByIdAndUpdate(_id, { avatarURL });
+
+  res.json({
+    avatarURL,
+  });
+};
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   logout: ctrlWrapper(logout),
   getCurrentUser: ctrlWrapper(getCurrentUser),
   profileSettings: ctrlWrapper(profileSettings),
+  updateAvatar: ctrlWrapper(updateAvatar),
 };
