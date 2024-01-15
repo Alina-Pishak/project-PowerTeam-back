@@ -13,8 +13,16 @@ const register = async (req, res) => {
   }
   const hashPassword = await bcrypt.hash(password, 10);
   const newUser = await User.create({ email, password: hashPassword, name });
+  const payload = { id: newUser._id };
+  const token = jwt.sign(payload, SECRET_KEY);
   res.status(201).json({
-    user: { name: newUser.name, email: newUser.email },
+    token,
+    user: {
+      name: newUser.name,
+      email: newUser.email,
+      avatarURL: "",
+      bodyData: false,
+    },
   });
 };
 
@@ -38,6 +46,8 @@ const login = async (req, res) => {
       name: user.name,
       avatarURL: user.avatarURL,
       bodyData: user.bodyData,
+    },
+    userParams: {
       height: user.height,
       currentWeight: user.currentWeight,
       desiredWeight: user.desiredWeight,
