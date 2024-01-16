@@ -13,8 +13,16 @@ const register = async (req, res) => {
   }
   const hashPassword = await bcrypt.hash(password, 10);
   const newUser = await User.create({ email, password: hashPassword, name });
+  const payload = { id: newUser._id };
+  const token = jwt.sign(payload, SECRET_KEY);
   res.status(201).json({
-    user: { name: newUser.name, email: newUser.email },
+    token,
+    user: {
+      name: newUser.name,
+      email: newUser.email,
+      avatarURL: "",
+      bodyData: false,
+    },
   });
 };
 
@@ -38,6 +46,8 @@ const login = async (req, res) => {
       name: user.name,
       avatarURL: user.avatarURL,
       bodyData: user.bodyData,
+    },
+    userParams: {
       height: user.height,
       currentWeight: user.currentWeight,
       desiredWeight: user.desiredWeight,
@@ -92,12 +102,29 @@ const getCurrentUser = async (req, res) => {
 
 const profileSettings = async (req, res) => {
   const { _id } = req.user;
-  await User.findByIdAndUpdate(
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (user && user._id !== _id) {
+    throw HttpError(400, "Email is already in use by another user");
+  }
+
+  const updateUser = await User.findByIdAndUpdate(
     _id,
     { ...req.body, bodyData: true },
     { new: true }
   );
-  res.json({ message: "User data added successfully." });
+  res.json({
+    height: updateUser.height,
+    currentWeight: updateUser.currentWeight,
+    desiredWeight: updateUser.desiredWeight,
+    birthday: updateUser.birthday,
+    blood: updateUser.blood,
+    sex: updateUser.sex,
+    levelActivity: updateUser.levelActivity,
+    bmr: updateUser.bmr,
+  });
 };
 
 const updateAvatar = async (req, res) => {
