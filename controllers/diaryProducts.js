@@ -37,8 +37,8 @@ const addProduct = async (req, res) => {
 
 const deleteById = async (req, res) => {
   const { _id: owner } = req.user;
-  const { _id } = req.params;
-  const result = await DiaryProduct.findByIdAndDelete(_id).where(
+  const { productId } = req.params;
+  const result = await DiaryProduct.findByIdAndDelete(productId).where(
     "owner",
     owner
   );
