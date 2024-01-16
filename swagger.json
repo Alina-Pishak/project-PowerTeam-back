@@ -218,10 +218,10 @@
         }
       }
     },
-    "/users/profile-settings": {
+    "/users/profile": {
       "patch": {
         "tags": ["User Controller"],
-        "summary": "Information user",
+        "summary": "Update information user",
         "security": [{ "Bearer": [] }],
         "parameters": [
           {
@@ -245,7 +245,14 @@
         },
         "responses": {
           "201": {
-            "description": "User`s data added successfully"
+            "description": "User`s data added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/CurrentUserResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "User`s information error"
@@ -257,7 +264,7 @@
       }
     },
 
-    "/": {
+    "/statistic": {
       "get": {
         "tags": ["Statistics Controller"],
         "summary": "Statistics app",
@@ -279,7 +286,7 @@
       }
     },
 
-    "/diary/products": {
+    "/diary": {
       "get": {
         "tags": ["Diary Controller"],
         "summary": "User`s diary products ",
@@ -293,7 +300,7 @@
             "description": "User`s token"
           },
           {
-            "in": "query",
+            "in": "path",
             "name": "Date",
             "required": true,
             "type": "string",
@@ -306,7 +313,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/securitySchemes/DiaryProductsListResponse"
+                  "$ref": "#/components/securitySchemes/DairyInformationResponse"
                 }
               }
             }
@@ -318,7 +325,9 @@
             "description": "Not Found"
           }
         }
-      },
+      }
+    },
+    "/diary/products": {
       "post": {
         "tags": ["Diary Controller"],
         "summary": "User`s diary products ",
@@ -339,6 +348,17 @@
             "description": "Product`s id"
           }
         ],
+        "requestBody": {
+          "description": "Main information about eaten product",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiaryProducts"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "Successful operation",
@@ -394,38 +414,6 @@
       }
     },
     "/diary/exercises": {
-      "get": {
-        "tags": ["Diary Controller"],
-        "summary": "User`s diary exercises ",
-        "security": [{ "Bearer": [] }],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "description": "User`s token"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/securitySchemes/DiaryExercisesListResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing header with authorization token"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
       "post": {
         "tags": ["Diary Controller"],
         "summary": "User`s diary exercises ",
@@ -770,10 +758,9 @@
             "minimum": 35
           },
           "birthday": {
-            "type": "date",
+            "type": "string",
             "description": "User's birthday",
-            "format": "DD-MM-YYYY",
-            "minimum": 18
+            "format": "DD-MM-YYYY"
           },
           "blood": {
             "type": "number",
@@ -806,7 +793,40 @@
           "bmr": 1800
         }
       },
-      "DiaryExercise": {
+      "DiaryProducts": {
+        "type": "object",
+        "required": [
+          "exercisesId",
+          "date",
+          "amount",
+          "calories"
+        ],
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "Product`s id"
+          },
+          "date": {
+            "type": "date",
+            "description": "Date, when user eat this product"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount that user eat this product"
+          },
+          "calories": {
+            "type": "number",
+            "description": "Calories that user eat this product"
+          }
+        },
+        "example": {
+          "exercisesId": "5d51694902b2373622ff5773",
+          "date": "2024-01-14 02:17Z",
+          "amount": 3,
+          "calories": 150
+        }
+      },
+      "DiaryExercises": {
         "type": "object",
         "required": ["exercisesId"],
         "properties": {
@@ -821,12 +841,17 @@
           "time": {
             "type": "number",
             "description": "Time that user done this exercise"
+          },
+          "burnedCalories": {
+            "type": "number",
+            "description": "Calories that user burned this exercise"
           }
         },
         "example": {
           "exercisesId": "64f2458d6f67bc34bae4f7f7",
           "date": "2024-01-14 02:17Z",
-          "time": 3
+          "time": 3,
+          "burnedCalories": 327
         }
       },
       "RecommendationsProducts": {
@@ -877,32 +902,6 @@
                 "type": "string",
                 "description": "User's email"
               },
-              "bodyData": {
-                "type": "bool",
-                "description": "Availability of user data "
-              }
-            }
-          },
-          "token": {
-            "type": "string",
-            "description": "User's token"
-          }
-        },
-        "example": {
-          "user": {
-            "name": "Adrian Cross",
-            "email": "across@mail.com",
-            "bodyData": false
-          },
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWEwNzViNzFmNGRlNTAwMTQ5MTZlMTUiLCJpYXQiOjE3MDUwMTQ3MTF9.TD3hhnF8GPyp8oJZRN1BIq1RBs-Bv-sG0zyfNYHyI5Y"
-        }
-      },
-      "SigninUserResponse": {
-        "type": "object",
-        "properties": {
-          "user": {
-            "type": "object",
-            "properties": {
               "avatarURL": {
                 "type": "string",
                 "description": "User's avatar"
@@ -920,8 +919,96 @@
         },
         "example": {
           "user": {
+            "name": "Adrian Cross",
+            "email": "across@mail.com",
+            "avatarURL": "",
+            "bodyData": false
+          },
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWEwNzViNzFmNGRlNTAwMTQ5MTZlMTUiLCJpYXQiOjE3MDUwMTQ3MTF9.TD3hhnF8GPyp8oJZRN1BIq1RBs-Bv-sG0zyfNYHyI5Y"
+        }
+      },
+      "SigninUserResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "User's email"
+              },
+              "name": {
+                "type": "string",
+                "description": "User's name"
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "User's avatar"
+              },
+              "bodyData": {
+                "type": "bool",
+                "description": "Availability of user data "
+              }
+            }
+          },
+          "userParams": {
+            "type": "object",
+            "properties": {
+              "height": {
+                "type": "number",
+                "description": "User's height"
+              },
+              "currentWeight": {
+                "type": "number",
+                "description": "User's currentWeight"
+              },
+              "desiredWeight": {
+                "type": "number",
+                "description": "User's desiredWeight"
+              },
+              "birthday": {
+                "type": "date",
+                "description": "User's birthday"
+              },
+              "blood": {
+                "type": "number",
+                "description": "User's blood"
+              },
+              "sex": {
+                "type": "string",
+                "description": "User's sex"
+              },
+              "levelActivity": {
+                "type": "number",
+                "description": "User's levelActivity"
+              },
+              "bmr": {
+                "type": "number",
+                "description": "User's  Basal Metabolic Rate"
+              }
+            }
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token"
+          }
+        },
+        "example": {
+          "user": {
+            "email": "across@mail.com",
+            "name": "Adrian Cross",
             "avatarURL": "https://gravatar.com/avatar/29c3250c49d381565a70e08af4a4771c?s=400&d=robohash&r=x",
             "bodyData": true
+          },
+          "userParams": {
+            "height": 150,
+            "currentWeight": 35,
+            "desiredWeight": 35,
+            "birthday": "12-28-1985",
+            "blood": 2,
+            "sex": "male",
+            "levelActivity": 3,
+            "bmr": 1800
           },
           "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWEwNzViNzFmNGRlNTAwMTQ5MTZlMTUiLCJpYXQiOjE3MDUwMTQ3MTF9.TD3hhnF8GPyp8oJZRN1BIq1RBs-Bv-sG0zyfNYHyI5Y"
         }
@@ -929,26 +1016,30 @@
       "CurrentUserResponse": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string",
-            "description": "User name"
-          },
-          "email": {
-            "type": "string",
-            "description": "User email",
-            "format": "email"
-          },
-          "avatarURL": {
-            "type": "string",
-            "description": "Avatar URL"
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "User's email"
+              },
+              "name": {
+                "type": "string",
+                "description": "User's name"
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "User's avatar"
+              },
+              "bodyData": {
+                "type": "bool",
+                "description": "Availability of user data "
+              }
+            }
           },
           "userParams": {
             "type": "object",
             "properties": {
-              "bodyData": {
-                "type": "bool",
-                "description": "Availability of user data"
-              },
               "height": {
                 "type": "number",
                 "description": "User's height"
@@ -985,11 +1076,13 @@
           }
         },
         "example": {
-          "name": "Adrian Cross",
-          "email": "across@mail.com",
-          "avatarURL": "https://gravatar.com/avatar/29c3250c49d381565a70e08af4a4771c?s=400&d=robohash&r=x",
+          "user": {
+            "email": "across@mail.com",
+            "name": "Adrian Cross",
+            "avatarURL": "https://gravatar.com/avatar/29c3250c49d381565a70e08af4a4771c?s=400&d=robohash&r=x",
+            "bodyData": true
+          },
           "userParams": {
-            "bodyData": true,
             "height": 150,
             "currentWeight": 35,
             "desiredWeight": 35,
@@ -1045,8 +1138,101 @@
           "totalPerformedExercises": 2
         }
       },
-      "DiaryProductsListResponse": {
+      "DairyInformationResponse": {
         "type": "object",
+        "properties": {
+          "diaryProducts": {
+            "type": "array",
+            "items": {
+              "idProduct": {
+                "type": "string",
+                "description": "Product`s id"
+              },
+              "title": {
+                "type": "string",
+                "description": "Product`s title"
+              },
+              "category": {
+                "type": "string",
+                "description": "Product`s category"
+              },
+              "caloriesEaten": {
+                "type": "number",
+                "description": "Product`s calories"
+              },
+              "weightEaten": {
+                "type": "number",
+                "description": "Product`s weight"
+              },
+              "recommend": {
+                "type": "bool",
+                "description": "Recommendations for the consumption of the product "
+              }
+            }
+          },
+          "diaryExercises": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "idExercise": {
+                  "type": "string",
+                  "description": "Exercise`s id"
+                },
+                "bodyPart": {
+                  "type": "string",
+                  "description": "Exercise`s body parts"
+                },
+                "equipment": {
+                  "type": "string",
+                  "description": "Exercise`s equipment"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Exercise`s name"
+                },
+                "target": {
+                  "type": "string",
+                  "description": "Exercise`s target"
+                },
+                "burnedCalories": {
+                  "type": "number",
+                  "description": "Burned calories"
+                },
+                "time": {
+                  "type": "number",
+                  "description": "Exercise`s time"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "diaryProducts": [
+            {
+              "idProduct": "5d51694902b2373622ff5773",
+              "title": "Danbo cheese",
+              "category": "dairy",
+              "calories": 340,
+              "amount": 100,
+              "recommend": true
+            }
+          ],
+          "diaryExercises": [
+            {
+              "idExercise": "64f2458d6f67bc34bae4f7f7",
+              "bodyPart": "chest",
+              "equipment": "leverage machine",
+              "name": "assisted chest dip (kneeling)",
+              "target": "pectorals",
+              "burnedCalories": 329,
+              "time": 3
+            }
+          ]
+        }
+      },
+      "DiaryProductsListResponse": {
+        "type": "array",
         "properties": {
           "idProduct": {
             "type": "string",
@@ -1060,11 +1246,11 @@
             "type": "string",
             "description": "Product`s category"
           },
-          "calorieseaten": {
+          "calories": {
             "type": "number",
             "description": "Product`s calories"
           },
-          "weighteaten": {
+          "amount": {
             "type": "number",
             "description": "Product`s weight"
           },
@@ -1073,14 +1259,13 @@
             "description": "Recommendations for the consumption of the product "
           }
         },
-
         "example": [
           {
             "idProduct": "5d51694902b2373622ff5773",
             "title": "Danbo cheese",
             "category": "dairy",
             "calories": 340,
-            "weight": 100,
+            "amount": 100,
             "recommend": true
           }
         ]
@@ -1151,9 +1336,9 @@
             "type": "number",
             "description": "Product`s calories"
           },
-          "weight": {
-            "type": "number",
-            "description": "Product`s weight"
+          "amount": {
+            "type": "amount",
+            "description": "Product`s amount"
           },
           "recommend": {
             "type": "bool",
@@ -1165,7 +1350,7 @@
           "title": "Danbo cheese",
           "category": "dairy",
           "calories": 340,
-          "weight": 100,
+          "amount": 100,
           "recommend": true
         }
       },
@@ -1269,7 +1454,7 @@
               "type": "string",
               "description": "Exercise`s id"
             },
-            "bodypart": {
+            "bodyPart": {
               "type": "string",
               "description": "Exercise`s body parts"
             },
@@ -1292,6 +1477,10 @@
             "gifUrl": {
               "type": "string",
               "description": "Exercise`s gifUrl"
+            },
+            "time": {
+              "type": "number",
+              "description": "Time that need burned calories"
             }
           }
         },
@@ -1303,7 +1492,8 @@
             "name": "assisted chest dip (kneeling)",
             "target": "pectorals",
             "burnedCalories": 329,
-            "gifUrl": "https://ftp.goit.study/img/power-pulse/gifs/0219.gif"
+            "gifUrl": "https://ftp.goit.study/img/power-pulse/gifs/0219.gif",
+            "time": 3
           }
         ]
       },
