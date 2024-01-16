@@ -3,7 +3,7 @@ const { HttpError,ctrlWrapper } = require("../helpers");
 const fs = require("fs");
 const path = require("path");
 
-const listProducts = async (req, res) => {
+const listProducts = async (res) => {
   const categoryPath = path.resolve(
     __dirname,
     "../products/productsCategories.json"
@@ -20,6 +20,7 @@ const listProducts = async (req, res) => {
 
 
 const listFilterProducts = async (req, res) => {
+
   const { title, category, filterType } = req.query;
   const { blood } = req.user;
 
@@ -33,17 +34,27 @@ const listFilterProducts = async (req, res) => {
     searchConditions.category = category;
   }
 
-   if (blood && filterType !== "null") {
-     searchConditions[`groupBloodNotAllowed.${blood}`] = filterType;
-   }
+  if (blood && filterType !== "null") {
+    searchConditions[`groupBloodNotAllowed.${blood}`] = filterType;
+  }
 
-  const result = await Product.find(searchConditions);
-   if (!result) {
-     throw HttpError(404, "Not found");
-   }
-  res.json(result);
+  const projection = {
+    idProduct: "$_id",
+    title: 1,
+    category: 1,
+    calories: 1,
+    weight: 1,
+    recommend: `$groupBloodNotAllowed.${blood}`,
+    _id: 0, 
+  };
+
+  const results = await Product.find(searchConditions, projection);
+
+  if (!results) {
+    throw HttpError(404, "Not found");
+  }
+  res.json(results);
 };
-
 
 module.exports = {
   listProducts: ctrlWrapper(listProducts),
