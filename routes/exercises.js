@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get("/", ctrl.getAllExercises);
 
-router.get("/:category", ctrl.getAllByCategory);
+router.get("/filters", ctrl.getAllFilters);
 
 module.exports = router;

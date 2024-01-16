@@ -10,21 +10,8 @@ const getAllExercises = async (req, res) => {
   res.json(result);
 };
 
-const getAllByCategory = async (req, res) => {
-  const { category } = req.params;
-  const arrayCategories = ["bodyparts", "muscles", "equipment"];
-  if (!arrayCategories.includes(category)) {
-    throw HttpError(400, "Bad request");
-  }
-  const filterCategory = {
-    bodyparts: "Body parts",
-    muscles: "Muscles",
-    equipment: "Equipment",
-  };
-  const result = await Filters.find({
-    filter: filterCategory[category],
-  });
-
+const getAllFilters = async (req, res) => {
+  const result = await Filters.find();
   if (!result) {
     throw HttpError(404, "Not found");
   }
@@ -33,5 +20,5 @@ const getAllByCategory = async (req, res) => {
 
 module.exports = {
   getAllExercises: ctrlWrapper(getAllExercises),
-  getAllByCategory: ctrlWrapper(getAllByCategory),
+  getAllFilters: ctrlWrapper(getAllFilters),
 };
