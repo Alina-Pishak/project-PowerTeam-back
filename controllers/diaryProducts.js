@@ -1,17 +1,15 @@
 const { HttpError, ctrlWrapper } = require("../helpers");
 const { DiaryProduct } = require("../models/diaryProduct");
 const Product = require("../models/product");
-const { User } = require("../models/user");
 
 const addProduct = async (req, res) => {
-  const { _id: owner } = req.user;
+  const { _id: owner, blood } = req.user;
   const { amount, calories, productId, date } = req.body;
   const resultProduct = await Product.findById(productId);
 
   if (!resultProduct) {
     throw HttpError(404, "Product not found");
   }
-  const { blood } = await User.findById(owner);
   if (!blood) {
     throw HttpError(404, "User's data not found");
   }
@@ -27,13 +25,20 @@ const addProduct = async (req, res) => {
     amount,
   });
 
-  res.status(201).json(result);
+  res.status(201).json({
+    idProduct: result._id,
+    category: resultProduct.category,
+    title: resultProduct.title,
+    recommended: resultProduct.groupBloodNotAllowed[blood],
+    calories,
+    amount,
+  });
 };
 
 const deleteById = async (req, res) => {
   const { _id: owner } = req.user;
-  const { productId } = req.params;
-  const result = await DiaryProduct.findByIdAndDelete(productId).where(
+  const { _id } = req.params;
+  const result = await DiaryProduct.findByIdAndDelete(_id).where(
     "owner",
     owner
   );

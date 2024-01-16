@@ -2,9 +2,9 @@ const { HttpError } = require("../helpers");
 const { isValidObjectId } = require("mongoose");
 
 const isValidProductParams = async (req, res, next) => {
-  const { productId } = req.params;
-  if (!isValidObjectId(productId)) {
-    next(HttpError(400, `${productId} is not valid product ID`));
+  const { _id } = req.params;
+  if (!isValidObjectId(_id)) {
+    next(new HttpError(400, `${_id} is not valid _id`));
   }
   next();
 };
