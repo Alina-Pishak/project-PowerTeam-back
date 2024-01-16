@@ -20,4 +20,4 @@ const productSchema = Joi.object({
   }),
 });
 
-module.exports = { productSchema };
+module.exports = productSchema;
