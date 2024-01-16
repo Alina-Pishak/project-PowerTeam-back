@@ -25,6 +25,8 @@ app.use("/products", productRouter);
 app.use("/diary", diary);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/", statisticRoute);
+app.use("/products", productRouter);
+app.use("/statistic", statisticRoute);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });

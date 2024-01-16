@@ -1,5 +1,5 @@
 const { ctrlWrapper } = require("../helpers");
-const { diaryExercise } = require("../models/diaryExercise");
+const diaryExercise = require("../models/diaryExercise");
 const Exercise = require("../models/exercise");
 const { User } = require("../models/user");
 
