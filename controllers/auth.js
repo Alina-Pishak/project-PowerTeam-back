@@ -73,11 +73,8 @@ const getCurrentUser = async (req, res) => {
   } = req.user;
 
   res.json({
-    email,
-    name,
-    avatarURL,
+    user: { email, name, avatarURL, bodyData },
     userParams: {
-      bodyData,
       height,
       currentWeight,
       desiredWeight,
