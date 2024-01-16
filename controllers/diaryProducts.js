@@ -45,18 +45,7 @@ const deleteById = async (req, res) => {
   res.sendStatus(204);
 };
 
-const getAllByDate = async (req, res) => {
-  const { _id: owner } = req.user;
-  const { date } = req.params;
-  const result = await DiaryProduct.find({
-    owner,
-    date,
-  }).select("title category calories amount");
-  res.json(result);
-};
-
 module.exports = {
   addProduct: ctrlWrapper(addProduct),
   deleteById: ctrlWrapper(deleteById),
-  getAllByDate: ctrlWrapper(getAllByDate),
 };

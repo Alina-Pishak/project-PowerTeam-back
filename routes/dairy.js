@@ -52,6 +52,5 @@ router.delete(
   isValidProductParams,
   productCtrl.deleteById
 );
-router.get("/:date", authenticate, productCtrl.getAllByDate);
 
 module.exports = router;
