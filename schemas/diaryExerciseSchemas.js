@@ -11,7 +11,7 @@ const createExercise = Joi.object({
   burnedCalories: Joi.number().required(),
 });
 
-const getDairyByDate = Joi.object({
+const getDiaryByDate = Joi.object({
   date: Joi.date().iso().required().messages({
     "date.base":
       "Date must have any valid ISO date format, for example YYYY-MM-DD.",
@@ -20,7 +20,7 @@ const getDairyByDate = Joi.object({
 });
 const schemas = {
   createExercise,
-  getDairyByDate,
+  getDiaryByDate,
 };
 
 module.exports = schemas;
