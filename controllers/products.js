@@ -3,7 +3,7 @@ const { HttpError,ctrlWrapper } = require("../helpers");
 const fs = require("fs");
 const path = require("path");
 
-const listProducts = async (req, res) => {
+const listProducts = async (_,res) => {
   const categoryPath = path.resolve(
     __dirname,
     "../products/productsCategories.json"
@@ -20,30 +20,41 @@ const listProducts = async (req, res) => {
 
 
 const listFilterProducts = async (req, res) => {
-  const { title, category } = req.query;
+
+  const { title, category, filterType } = req.query;
   const { blood } = req.user;
 
   const searchConditions = {};
 
   if (title) {
-    searchConditions.name = { $regex: title, $options: "i" };
+    searchConditions.title = { $regex: title, $options: "i" };
   }
 
   if (category) {
     searchConditions.category = category;
   }
 
-  if (blood) {
-    searchConditions[`groupBloodNotAllowed.${blood}`] = true;
+  if (blood && filterType !== "null") {
+    searchConditions[`groupBloodNotAllowed.${blood}`] = filterType;
   }
 
-  const result = await Product.find(searchConditions);
-   if (!result) {
-     throw HttpError(404, "Not found");
-   }
-  res.json(result);
-};
+  const projection = {
+    idProduct: "$_id",
+    title: 1,
+    category: 1,
+    calories: 1,
+    weight: 1,
+    recommend: `$groupBloodNotAllowed.${blood}`,
+    _id: 0, 
+  };
 
+  const results = await Product.find(searchConditions, projection);
+
+  if (!results) {
+    throw HttpError(404, "Not found");
+  }
+  res.json(results);
+};
 
 module.exports = {
   listProducts: ctrlWrapper(listProducts),
