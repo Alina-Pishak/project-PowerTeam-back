@@ -3,7 +3,7 @@ const { HttpError,ctrlWrapper } = require("../helpers");
 const fs = require("fs");
 const path = require("path");
 
-const listProducts = async (res) => {
+const listProducts = async (_,res) => {
   const categoryPath = path.resolve(
     __dirname,
     "../products/productsCategories.json"
