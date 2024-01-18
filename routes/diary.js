@@ -1,5 +1,5 @@
 const express = require("express");
-const ctrl = require("../controllers/dairyExercise");
+const ctrl = require("../controllers/diaryExercise");
 const productCtrl = require("../controllers/diaryProducts");
 const {
   validateBody,
@@ -18,7 +18,7 @@ const router = express.Router();
 router.get(
   "/:date",
   authenticate,
-  validateRequestParam(schemas.dairyExercise.getDairyByDate),
+  validateRequestParam(schemas.diaryExercise.getDiaryByDate),
   normalizeDateInParam,
   ctrl.getDiaryByDate
 );
@@ -26,7 +26,7 @@ router.get(
 router.post(
   "/exercises",
   authenticate,
-  validateBody(schemas.dairyExercise.createExercise),
+  validateBody(schemas.diaryExercise.createExercise),
   isValidExerciseBody,
   normalizeDateInBody,
   ctrl.createExercise
