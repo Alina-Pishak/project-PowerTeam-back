@@ -6,7 +6,6 @@ const addProduct = async (req, res) => {
   const { _id: owner, blood } = req.user;
   const { amount, calories, productId, date } = req.body;
   const resultProduct = await Product.findById(productId);
-
   if (!resultProduct) {
     throw HttpError(404, "Product not found");
   }
@@ -37,11 +36,8 @@ const addProduct = async (req, res) => {
 
 const deleteById = async (req, res) => {
   const { _id: owner } = req.user;
-  const { productId } = req.params;
-  const result = await DiaryProduct.findByIdAndDelete(productId).where(
-    "owner",
-    owner
-  );
+  const { id } = req.params;
+  const result = await DiaryProduct.findByIdAndDelete(id).where("owner", owner);
 
   if (!result) {
     throw HttpError(404, "Not found");
