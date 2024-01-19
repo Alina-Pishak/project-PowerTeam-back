@@ -27,22 +27,6 @@ const diaryExerciseSchema = new Schema(
       min: 1,
       required: true,
     },
-    bodyPart: {
-      type: String,
-      required: true,
-    },
-    equipment: {
-      type: String,
-      required: true,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    target: {
-      type: String,
-      required: true,
-    },
   },
   { versionKey: false }
 );
