@@ -25,7 +25,6 @@ const projectionFilter = {
 
 const getExercises = async (req, res) => {
   const { category, subcategory } = req.query;
-  console.log(category, subcategory);
   const validSearch = decodeURIComponent(subcategory);
   const searchConditions = {};
   if (category && subcategory) {
