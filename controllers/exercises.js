@@ -23,13 +23,28 @@ const projectionFilter = {
   _id: 0,
 };
 
-const getAllExercises = async (req, res) => {
-  const result = await Exercises.find(searchConditions, projection);
-  if (!result) {
-    throw HttpError(404, "Not found");
+const getExercises = async (req, res) => {
+  const { category, subcategory } = req.query;
+  console.log(category, subcategory);
+  const validSearch = decodeURIComponent(subcategory);
+  const searchConditions = {};
+  if (category && subcategory) {
+    searchConditions[category] = validSearch;
+    const results = await Exercises.find(searchConditions, projection);
+    if (!results) {
+      throw HttpError(404, "Not found");
+    }
+    res.json(results);
+  } else {
+    const result = await Exercises.find(searchConditions, projection);
+    if (!result) {
+      throw HttpError(404, "Not found");
+    }
+
+    res.json(result);
   }
-  res.json(result);
 };
+
 
 const getAllFilters = async (req, res) => {
   const result = await Filters.find(searchConditions, projectionFilter);
@@ -52,7 +67,7 @@ const exerciseById = async (req, res) => {
 };
 
 module.exports = {
-  getAllExercises: ctrlWrapper(getAllExercises),
+  getExercises: ctrlWrapper(getExercises),
   getAllFilters: ctrlWrapper(getAllFilters),
   exerciseById: ctrlWrapper(exerciseById),
 };
