@@ -30,21 +30,13 @@ const getExercises = async (req, res) => {
   const searchConditions = {};
   if (category && subcategory) {
     searchConditions[category] = validSearch;
-    const results = await Exercises.find(searchConditions, projection);
-    if (!results) {
-      throw HttpError(404, "Not found");
-    }
-    res.json(results);
-  } else {
-    const result = await Exercises.find(searchConditions, projection);
-    if (!result) {
-      throw HttpError(404, "Not found");
-    }
-
-    res.json(result);
   }
+  const results = await Exercises.find(searchConditions, projection);
+  if (!results) {
+    throw HttpError(404, "Not found");
+  }
+  res.json(results);
 };
-
 
 const getAllFilters = async (req, res) => {
   const result = await Filters.find(searchConditions, projectionFilter);
