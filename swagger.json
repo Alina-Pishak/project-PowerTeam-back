@@ -96,7 +96,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
@@ -120,15 +120,7 @@
         "tags": ["Auth Controller"],
         "summary": "User logout",
         "security": [{ "Bearer": [] }],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "description": "User`s token"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "204": {
             "description": "Successful operation"
@@ -147,15 +139,7 @@
         "tags": ["User Controller"],
         "summary": "Current user",
         "security": [{ "Bearer": [] }],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "description": "User`s token"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -178,15 +162,7 @@
         "tags": ["User Controller"],
         "summary": "Update user`s avatar",
         "security": [{ "Bearer": [] }],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "description": "User`s token"
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "description": "New avatar object",
           "required": true,
@@ -223,15 +199,7 @@
         "tags": ["User Controller"],
         "summary": "Update information user",
         "security": [{ "Bearer": [] }],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "description": "User`s token"
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "description": "Main information about user",
           "required": true,
@@ -290,15 +258,8 @@
       "get": {
         "tags": ["Diary Controller"],
         "summary": "User`s diary products ",
-        "security": [],
+        "security": [{ "Bearer": [] }],
         "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "description": "User`s token"
-          },
           {
             "in": "path",
             "name": "Date",
@@ -333,13 +294,6 @@
         "summary": "User`s diary products ",
         "security": [{ "Bearer": [] }],
         "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "description": "User`s token"
-          },
           {
             "in": "path",
             "name": "Product`s id",
@@ -379,19 +333,12 @@
         }
       }
     },
-    "/diary/products/{:idProduct}": {
+    "/diary/products/{id}": {
       "delete": {
         "tags": ["Diary Controller"],
         "summary": "User`s diary exercises ",
         "security": [{ "Bearer": [] }],
         "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "description": "User`s token"
-          },
           {
             "in": "path",
             "name": "idProduct",
@@ -418,15 +365,7 @@
         "tags": ["Diary Controller"],
         "summary": "User`s diary exercises ",
         "security": [{ "Bearer": [] }],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "description": "User`s token"
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "description": "Main information about exercises",
           "required": true,
@@ -458,19 +397,12 @@
         }
       }
     },
-    "/diary/exercises/{:idProduct}": {
+    "/diary/exercises/{id}": {
       "delete": {
         "tags": ["Diary Controller"],
         "summary": "User`s diary exercises ",
         "security": [{ "Bearer": [] }],
         "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "description": "User`s token"
-          },
           {
             "in": "path",
             "name": "Exercise`s id",
@@ -499,13 +431,6 @@
         "summary": "All Products list",
         "security": [{ "Bearer": [] }],
         "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "description": "User`s token"
-          },
           {
             "in": "query",
             "name": "Product`s title",
@@ -550,13 +475,39 @@
         "tags": ["Products Controller"],
         "summary": "Products category",
         "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/ProductsCategoryAllResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": ["Products Controller"],
+        "summary": "Find product by id",
+        "security": [{ "Bearer": [] }],
         "parameters": [
           {
-            "in": "header",
-            "name": "Authorization",
+            "in": "path",
+            "name": "Product`s id",
             "required": true,
             "type": "string",
-            "description": "User`s token"
+            "description": "Product`s id"
           }
         ],
         "responses": {
@@ -565,7 +516,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/securitySchemes/ProductsCategoryAllResponse"
+                  "$ref": "#/components/securitySchemes/ProductResponse"
                 }
               }
             }
@@ -587,11 +538,16 @@
         "security": [{ "Bearer": [] }],
         "parameters": [
           {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
+            "in": "query",
+            "name": "Category`s title",
             "type": "string",
-            "description": "User`s token"
+            "description": "Search exercises for category"
+          },
+          {
+            "in": "query",
+            "name": "Subcategory params",
+            "type": "string",
+            "description": "Subcategory's title for exercises's list"
           }
         ],
         "responses": {
@@ -614,25 +570,44 @@
         }
       }
     },
-    "/exercises/{:category}": {
+    "/exercises/filter": {
       "get": {
         "tags": ["Exercises Controller"],
         "summary": "All exercises by body parts/muscles/equipment",
         "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/securitySchemes/ExercisesCategoriesListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/exercises/{id}": {
+      "get": {
+        "tags": ["Exercises Controller"],
+        "summary": "Find exercise by id",
+        "security": [{ "Bearer": [] }],
         "parameters": [
           {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "description": "User`s token"
-          },
-          {
             "in": "path",
-            "name": "Category`s title",
+            "name": "Exercise`s id",
             "required": true,
             "type": "string",
-            "description": "One category with list: bodyparts, muscles or equipment"
+            "description": "Exercise`s id"
           }
         ],
         "responses": {
@@ -641,7 +616,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/securitySchemes/ExercisesCategoriesListResponse"
+                  "$ref": "#/components/securitySchemes/ExerciseResponse"
                 }
               }
             }
@@ -1099,7 +1074,7 @@
         "properties": {
           "avatarURL": {
             "type": "string",
-            "descroption": "New avatar URL"
+            "description": "New avatar URL"
           }
         },
         "example": {
@@ -1445,6 +1420,43 @@
           "description": "Product`s category"
         }
       },
+      "ProductResponse": {
+        "type": "object",
+        "properties": {
+          "idProduct": {
+            "type": "string",
+            "description": "Product`s id"
+          },
+          "title": {
+            "type": "string",
+            "description": "Product`s title"
+          },
+          "category": {
+            "type": "string",
+            "description": "Product`s category"
+          },
+          "calories": {
+            "type": "number",
+            "description": "Product`s calories"
+          },
+          "weight": {
+            "type": "number",
+            "description": "Product`s weight"
+          },
+          "recommend": {
+            "type": "bool",
+            "description": "Recommendations for the consumption of the product "
+          }
+        },
+        "example": {
+          "idProduct": "5d51694902b2373622ff5773",
+          "title": "Danbo cheese",
+          "category": "dairy",
+          "calories": 340,
+          "weight": 100,
+          "recommend": true
+        }
+      },
       "ExercisesListResponse": {
         "type": "array",
         "items": {
@@ -1520,6 +1532,53 @@
               "description": "Exercise`s category"
             }
           }
+        }
+      },
+      "ExerciseResponse": {
+        "type": "object",
+        "properties": {
+          "idExercise": {
+            "type": "string",
+            "description": "Exercise`s id"
+          },
+          "bodyPart": {
+            "type": "string",
+            "description": "Exercise`s body parts"
+          },
+          "equipment": {
+            "type": "string",
+            "description": "Exercise`s equipment"
+          },
+          "name": {
+            "type": "string",
+            "description": "Exercise`s name"
+          },
+          "target": {
+            "type": "string",
+            "description": "Exercise`s target"
+          },
+          "burnedCalories": {
+            "type": "number",
+            "description": "Burned calories"
+          },
+          "gifUrl": {
+            "type": "string",
+            "description": "Exercise`s gifUrl"
+          },
+          "time": {
+            "type": "number",
+            "description": "Time that need burned calories"
+          }
+        },
+        "example": {
+          "idExercise": "64f2458d6f67bc34bae4f7f7",
+          "bodyPart": "chest",
+          "equipment": "leverage machine",
+          "name": "assisted chest dip (kneeling)",
+          "target": "pectorals",
+          "burnedCalories": 329,
+          "gifUrl": "https://ftp.goit.study/img/power-pulse/gifs/0219.gif",
+          "time": 3
         }
       }
     }
