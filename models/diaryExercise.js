@@ -3,7 +3,7 @@ const { handleMongooseError } = require("../helpers");
 
 const diaryExerciseSchema = new Schema(
   {
-    exerciseId: {
+    exercise: {
       type: String,
       ref: "exercise",
       required: true,
