@@ -39,7 +39,20 @@ const getAllFilters = async (req, res) => {
   res.json(result);
 };
 
+const exerciseById = async (req, res) => {
+  const { exerciseId } = req.params;
+
+  const findExercise = await Exercises.findById(exerciseId, projection);
+
+  if (!findExercise) {
+    throw HttpError(404, "Not found");
+  }
+
+  res.json(findExercise);
+};
+
 module.exports = {
   getAllExercises: ctrlWrapper(getAllExercises),
   getAllFilters: ctrlWrapper(getAllFilters),
+  exerciseById: ctrlWrapper(exerciseById),
 };
