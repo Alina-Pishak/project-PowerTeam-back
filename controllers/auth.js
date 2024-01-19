@@ -113,16 +113,26 @@ const profileSettings = async (req, res) => {
     { ...req.body, bodyData: true },
     { new: true }
   );
-  res.json({
-    height: updateUser.height,
-    currentWeight: updateUser.currentWeight,
-    desiredWeight: updateUser.desiredWeight,
-    birthday: updateUser.birthday,
-    blood: updateUser.blood,
-    sex: updateUser.sex,
-    levelActivity: updateUser.levelActivity,
-    bmr: updateUser.bmr,
-  });
+
+  const userRes = {
+    user: {
+      email: updateUser.email,
+      name: updateUser.name,
+      avatarURL: updateUser.avatarURL,
+      bodyData: updateUser.bodyData,
+    },
+    userParams: {
+      height: updateUser.height,
+      currentWeight: updateUser.currentWeight,
+      desiredWeight: updateUser.desiredWeight,
+      birthday: updateUser.birthday,
+      blood: updateUser.blood,
+      sex: updateUser.sex,
+      levelActivity: updateUser.levelActivity,
+      bmr: updateUser.bmr,
+    },
+  };
+  res.json(userRes);
 };
 
 const updateAvatar = async (req, res) => {
