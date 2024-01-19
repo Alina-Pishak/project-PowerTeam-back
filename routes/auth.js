@@ -12,7 +12,11 @@ router.post(
   auth.register
 );
 
-router.post("/login", validateBody(schemas.loginJoiSchema), auth.login);
+router.post(
+  "/login",
+  validateBody(schemas.loginJoiSchema),
+  auth.login
+);
 
 router.post("/logout", authenticate, auth.logout);
 
