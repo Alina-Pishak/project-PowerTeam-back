@@ -1,17 +1,13 @@
 const express = require("express");
 
 const ctrl = require("../controllers/exercises");
-const {
-  authenticate,
-  isValidExerciseParams,
-} = require("../middlewares");
-// const { authenticate } = require("../middlewares");
+const { authenticate, isValidExerciseParams } = require("../middlewares");
 
 const router = express.Router();
 
-router.get("/", ctrl.getAllExercises);
+router.get("/", authenticate, ctrl.getExercises);
 
-router.get("/filters", ctrl.getAllFilters);
+router.get("/filters", authenticate, ctrl.getAllFilters);
 
 router.get(
   "/:exerciseId",
