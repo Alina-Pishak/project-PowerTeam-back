@@ -9,10 +9,7 @@ const listProducts = async (_, res) => {
     "../products/productsCategories.json"
   );
 
-  const categoriesData = fs.readFileSync(
-    categoryPath,
-    "utf8"
-  );
+  const categoriesData = fs.readFileSync(categoryPath, "utf8");
   const categories = JSON.parse(categoriesData);
 
   if (!categories) {
@@ -39,8 +36,7 @@ const listFilterProducts = async (req, res) => {
   }
 
   if (blood && filterType !== "null") {
-    searchConditions[`groupBloodNotAllowed.${blood}`] =
-      filterType;
+    searchConditions[`groupBloodNotAllowed.${blood}`] = filterType;
   }
 
   const projection = {
@@ -53,10 +49,7 @@ const listFilterProducts = async (req, res) => {
     _id: 0,
   };
 
-  const results = await Product.find(
-    searchConditions,
-    projection
-  );
+  const results = await Product.find(searchConditions, projection);
 
   if (!results) {
     throw HttpError(404, "Not found");
@@ -65,7 +58,7 @@ const listFilterProducts = async (req, res) => {
 };
 
 const productById = async (req, res) => {
-  const { productId } = req.params;
+  const { id } = req.params;
   const { blood } = req.user;
 
   const projection = {
@@ -78,10 +71,7 @@ const productById = async (req, res) => {
     _id: 0,
   };
 
-  const findProduct = await Product.findById(
-    productId,
-    projection
-  );
+  const findProduct = await Product.findById(id, projection);
 
   if (!findProduct) {
     throw HttpError(404, "Not found");

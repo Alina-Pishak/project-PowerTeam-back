@@ -4,24 +4,15 @@ const productCtrl = require("../controllers/diaryProducts");
 const {
   validateBody,
   isValidExerciseBody,
-  isValidExerciseParams,
   normalizeDateInBody,
   authenticate,
   normalizeDateInParam,
   validateRequestParam,
-  isValidProductParams,
+  isValidId,
 } = require("../middlewares");
 const schemas = require("../schemas");
 
 const router = express.Router();
-
-router.get(
-  "/:date",
-  authenticate,
-  validateRequestParam(schemas.diaryExercise.getDiaryByDate),
-  normalizeDateInParam,
-  ctrl.getDiaryByDate
-);
 
 router.post(
   "/exercises",
@@ -32,25 +23,24 @@ router.post(
   ctrl.createExercise
 );
 
-router.delete(
-  "/exercises/:exerciseId",
-  authenticate,
-  isValidExerciseParams,
-  ctrl.deleteExercise
-);
+router.delete("/exercises/:id", authenticate, isValidId, ctrl.deleteExercise);
 
 router.post(
   "/products",
   authenticate,
-  validateBody(schemas.productDiary.productSchema),
+  validateBody(schemas.productDiary),
   normalizeDateInBody,
   productCtrl.addProduct
 );
-router.delete(
-  "/products/:productId",
+
+router.delete("/products/:id", authenticate, isValidId, productCtrl.deleteById);
+
+router.get(
+  "/:date",
   authenticate,
-  isValidProductParams,
-  productCtrl.deleteById
+  validateRequestParam(schemas.diaryExercise.getDiaryByDate),
+  normalizeDateInParam,
+  ctrl.getDiaryByDate
 );
 
 module.exports = router;

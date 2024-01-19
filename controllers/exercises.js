@@ -46,9 +46,9 @@ const getAllFilters = async (req, res) => {
 };
 
 const exerciseById = async (req, res) => {
-  const { exerciseId } = req.params;
+  const { id } = req.params;
 
-  const findExercise = await Exercises.findById(exerciseId, projection);
+  const findExercise = await Exercises.findById(id, projection);
 
   if (!findExercise) {
     throw HttpError(404, "Not found");
