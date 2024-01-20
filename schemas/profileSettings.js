@@ -13,7 +13,7 @@ const profileSchema = Joi.object({
     "number.max": "Height should not exceed 240",
   }),
   bodyData: Joi.boolean(),
-  avatarURL: Joi.string().messages({
+  avatarURL: Joi.string().allow("").messages({
     "string.empty": "Avatar URL cannot be empty",
   }),
   currentWeight: Joi.number().min(35).max(250).messages({
