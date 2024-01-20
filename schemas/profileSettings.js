@@ -12,6 +12,7 @@ const profileSchema = Joi.object({
     "number.min": "Height should be at least 150",
     "number.max": "Height should not exceed 240",
   }),
+  bodyData: Joi.boolean(),
   avatarURL: Joi.string().messages({
     "string.empty": "Avatar URL cannot be empty",
   }),
@@ -37,6 +38,9 @@ const profileSchema = Joi.object({
   }),
   levelActivity: Joi.number().messages({
     "number.base": "Level of activity should be a number",
+  }),
+  bmr: Joi.number().messages({
+    "number.base": "BMR should be a number",
   }),
 });
 
