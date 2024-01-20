@@ -103,8 +103,10 @@ const profileSettings = async (req, res) => {
   const { email } = req.body;
 
   const user = await User.findOne({ email });
+  const reqId = _id.toString();
+  const userId = user._id.toString();
 
-  if (user && user._id !== _id) {
+  if (user && userId !== reqId) {
     throw HttpError(400, "Email is already in use by another user");
   }
 
