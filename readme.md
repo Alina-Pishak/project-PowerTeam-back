@@ -1,6 +1,6 @@
 # Power Pulse backend
 
-Welcome to the Power Pulse backend! This project was made for the [Power Pulse](https://arch819.github.io/project-PowerTeam-front/welcome) app, using node.js and express framework.
+Welcome to the Power Pulse backend, made for the [Power Pulse](https://arch819.github.io/project-PowerTeam-front/welcome) app. This server, based on Node.js and the Express framework, incorporates new technologies and modern methods for enhanced productivity. Connected to a MongoDB database, it creates a dynamic and secure foundation, ensuring application reliability.
 
 ## Table of Contents
 
@@ -24,19 +24,17 @@ The base url for all requests: https://powerpulse-backend-heie.onrender.com
 
 ## Usage
 
-A few examples of using:
+**A few examples of using:**
 
-```
-Request:
-
-GET https://powerpulse-backend-heie.onrender.com/users/current
+Request: GET https://powerpulse-backend-heie.onrender.com/users/current
 
 Response:
 
+```
 {
     "user": {
-        "email": "joi@co.com",
-        "name": "Joi",
+        "email": "example@co.com",
+        "name": "Example",
         "avatarURL": "https://res.cloudinary.com/dwkvsznn0/image/upload/v1705872001/avatars/65ad89955752febd5bd565f9.jpg",
         "bodyData": true
     },
@@ -54,14 +52,11 @@ Response:
 
 ```
 
-```
-
-Request:
-
-GET https://powerpulse-backend-heie.onrender.com/exercises
+Request: GET https://powerpulse-backend-heie.onrender.com/exercises
 
 Response:
 
+```
 [
     {
         "bodyPart": "chest",
@@ -85,12 +80,11 @@ Response:
     },
     ...
 ]
-
 ```
 
 ## Documentation
 
-Yo can see our documentation [here](https://powerpulse-backend-heie.onrender.com/api-docs/)
+You can see our documentation [here](https://powerpulse-backend-heie.onrender.com/api-docs/).
 
 ## Contributors
 
