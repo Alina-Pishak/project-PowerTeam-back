@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const { emailRegexp } = require("../helpers");
+const { emailRegexp, constants } = require("../helpers");
 
 const profileSchema = Joi.object({
   name: Joi.string().messages({
@@ -33,9 +33,11 @@ const profileSchema = Joi.object({
     "number.min": "Blood type should be at least 1",
     "number.max": "Blood type should not exceed 4",
   }),
-  sex: Joi.string().valid("male", "female").messages({
-    "any.only": "Sex should be either male or female",
-  }),
+  sex: Joi.string()
+    .valid(constants.genders.MALE, constants.genders.FEMALE)
+    .messages({
+      "any.only": "Sex should be either male or female",
+    }),
   levelActivity: Joi.number().messages({
     "number.base": "Level of activity should be a number",
   }),
