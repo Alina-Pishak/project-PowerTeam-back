@@ -21,6 +21,7 @@ const listProducts = async (_, res) => {
 const listFilterProducts = async (req, res) => {
   const { title, category, filterType } = req.query;
   const { blood } = req.user;
+  const validSearch = decodeURIComponent(category);
 
   const searchConditions = {};
 
@@ -31,11 +32,11 @@ const listFilterProducts = async (req, res) => {
     };
   }
 
-  if (category) {
-    searchConditions.category = category;
+  if (category !== "all") {
+    searchConditions.category = validSearch;
   }
 
-  if (blood && filterType !== "null") {
+  if (blood && filterType !== "none") {
     searchConditions[`groupBloodNotAllowed.${blood}`] = filterType;
   }
 
