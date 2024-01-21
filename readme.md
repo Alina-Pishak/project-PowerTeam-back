@@ -54,6 +54,8 @@ Response:
 
 ```
 
+```
+
 Request:
 
 GET https://powerpulse-backend-heie.onrender.com/exercises
@@ -61,27 +63,27 @@ GET https://powerpulse-backend-heie.onrender.com/exercises
 Response:
 
 [
-{
-"bodyPart": "chest",
-"equipment": "leverage machine",
-"gifUrl": "https://ftp.goit.study/img/power-pulse/gifs/0009.gif",
-"name": "assisted chest dip (kneeling)",
-"target": "pectorals",
-"burnedCalories": 329,
-"time": 3,
-"idExercise": "64f2458d6f67bc34bae4f7f7"
-},
-{
-"bodyPart": "upper legs",
-"equipment": "barbell",
-"gifUrl": "https://ftp.goit.study/img/power-pulse/gifs/0090.gif",
-"name": "barbell seated good morning",
-"target": "glutes",
-"burnedCalories": 35,
-"time": 3,
-"idExercise": "64f2458d6f67bc34bae4f846"
-},
-...
+    {
+        "bodyPart": "chest",
+        "equipment": "leverage machine",
+        "gifUrl": "https://ftp.goit.study/img/power-pulse/gifs/0009.gif",
+        "name": "assisted chest dip (kneeling)",
+        "target": "pectorals",
+        "burnedCalories": 329,
+        "time": 3,
+        "idExercise": "64f2458d6f67bc34bae4f7f7"
+    },
+    {
+        "bodyPart": "upper legs",
+        "equipment": "barbell",
+        "gifUrl": "https://ftp.goit.study/img/power-pulse/gifs/0090.gif",
+        "name": "barbell seated good morning",
+        "target": "glutes",
+        "burnedCalories": 35,
+        "time": 3,
+        "idExercise": "64f2458d6f67bc34bae4f846"
+    },
+    ...
 ]
 
 ```
@@ -105,4 +107,7 @@ Thanks goes to these wonderful people:
 - [Ihor Mushketyk](https://github.com/IgorMushk)
 - [Ganna Andriyenko](https://github.com/Annacheer)
 - [Liudmyla Ridko](https://github.com/liussi)
+
+```
+
 ```
