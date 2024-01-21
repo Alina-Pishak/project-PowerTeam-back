@@ -1,6 +1,6 @@
 # Power Pulse backend
 
-Welcome to the Power Pulse backend! This project was made for the [Power Pulse](https://arch819.github.io/project-PowerTeam-front/welcome) app, using simple technologies and modern methods.
+Welcome to the Power Pulse backend! This project was made for the [Power Pulse](https://arch819.github.io/project-PowerTeam-front/welcome) app, using node.js and express framework.
 
 ## Table of Contents
 
@@ -12,11 +12,11 @@ Welcome to the Power Pulse backend! This project was made for the [Power Pulse](
 
 ## Featured
 
-- **Authorization Functionality:** - With the Power Pulse backend, you can keep your information safe. Here is implemented the functionality of registration, login and user logout. Also you can update profile information.
+- **Authorization Functionality:** With the Power Pulse backend, you can keep your information safe. Here is implemented the functionality of registration, login and user logout. Also you can update profile information.
 
-- **Personal Diaries for Everyone:** - Every authorized user can have their own special diary. In this diary, you can track your progress, find out your daily calorie intake. And also add consumed products and performed exercises for today.
+- **Personal Diaries for Everyone:** Every authorized user can have their own special diary. In this diary, you can track your progress, find out your daily calorie intake. And also add consumed products and performed exercises for today.
 
-- **Private Routes for Special Users:** - If you sign in, you get special access to private routes, where you can find all the exercises and products.
+- **Private Routes for Special Users:** If you sign in, you get special access to private routes, where you can find all the exercises and products.
 
 ## Getting Started
 
@@ -24,7 +24,7 @@ The base url for all requests: https://powerpulse-backend-heie.onrender.com
 
 ## Usage
 
-A few examples of using.
+A few examples of using:
 
 ```
 Request:
@@ -52,6 +52,8 @@ Response:
     }
 }
 
+```
+
 Request:
 
 GET https://powerpulse-backend-heie.onrender.com/exercises
@@ -59,36 +61,36 @@ GET https://powerpulse-backend-heie.onrender.com/exercises
 Response:
 
 [
-    {
-        "bodyPart": "chest",
-        "equipment": "leverage machine",
-        "gifUrl": "https://ftp.goit.study/img/power-pulse/gifs/0009.gif",
-        "name": "assisted chest dip (kneeling)",
-        "target": "pectorals",
-        "burnedCalories": 329,
-        "time": 3,
-        "idExercise": "64f2458d6f67bc34bae4f7f7"
-    },
-    {
-        "bodyPart": "upper legs",
-        "equipment": "barbell",
-        "gifUrl": "https://ftp.goit.study/img/power-pulse/gifs/0090.gif",
-        "name": "barbell seated good morning",
-        "target": "glutes",
-        "burnedCalories": 35,
-        "time": 3,
-        "idExercise": "64f2458d6f67bc34bae4f846"
-    },
-    ...
+{
+"bodyPart": "chest",
+"equipment": "leverage machine",
+"gifUrl": "https://ftp.goit.study/img/power-pulse/gifs/0009.gif",
+"name": "assisted chest dip (kneeling)",
+"target": "pectorals",
+"burnedCalories": 329,
+"time": 3,
+"idExercise": "64f2458d6f67bc34bae4f7f7"
+},
+{
+"bodyPart": "upper legs",
+"equipment": "barbell",
+"gifUrl": "https://ftp.goit.study/img/power-pulse/gifs/0090.gif",
+"name": "barbell seated good morning",
+"target": "glutes",
+"burnedCalories": 35,
+"time": 3,
+"idExercise": "64f2458d6f67bc34bae4f846"
+},
+...
 ]
 
 ```
 
 ## Documentation
 
-You can find our documentation here [website](https://powerpulse-backend-heie.onrender.com/api-docs/)
+Yo can see our documentation [here](https://powerpulse-backend-heie.onrender.com/api-docs/)
 
-## Contributors ✨
+## Contributors
 
 Thanks goes to these wonderful people:
 
@@ -103,3 +105,4 @@ Thanks goes to these wonderful people:
 - [Ihor Mushketyk](https://github.com/IgorMushk)
 - [Ganna Andriyenko](https://github.com/Annacheer)
 - [Liudmyla Ridko](https://github.com/liussi)
+```
