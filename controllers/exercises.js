@@ -2,7 +2,6 @@ const { ctrlWrapper, HttpError } = require("../helpers");
 const Exercises = require("../models/exercise");
 const Filters = require("../models/filter");
 
-const searchConditions = {};
 const projection = {
   idExercise: "$_id",
   bodyPart: 1,
@@ -37,7 +36,13 @@ const getExercises = async (req, res) => {
   res.json(results);
 };
 
-const getAllFilters = async (req, res) => {
+const getFilters = async (req, res) => {
+  const { filter } = req.query;
+  const validSearch = decodeURIComponent(filter);
+  const searchConditions = {};
+  if (filter) {
+    searchConditions.filter = validSearch;
+  }
   const result = await Filters.find(searchConditions, projectionFilter);
   if (!result) {
     throw HttpError(404, "Not found");
@@ -59,6 +64,6 @@ const exerciseById = async (req, res) => {
 
 module.exports = {
   getExercises: ctrlWrapper(getExercises),
-  getAllFilters: ctrlWrapper(getAllFilters),
+  getFilters: ctrlWrapper(getFilters),
   exerciseById: ctrlWrapper(exerciseById),
 };
