@@ -3,6 +3,7 @@ const HttpError = require("./HttpError");
 const handleMongooseError = require("./handleMongooseError");
 const dateToShortFormat = require("./dateToShortFormat");
 const emailRegexp = require("./patterns");
+const constants = require("./constants");
 
 module.exports = {
   ctrlWrapper,
@@ -10,4 +11,5 @@ module.exports = {
   handleMongooseError,
   dateToShortFormat,
   emailRegexp,
+  constants,
 };
