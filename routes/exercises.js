@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get("/", authenticate, ctrl.getExercises);
 
-router.get("/filters", authenticate, ctrl.getAllFilters);
+router.get("/filters", authenticate, ctrl.getFilters);
 
 router.get("/:id", authenticate, isValidId, ctrl.exerciseById);
 
