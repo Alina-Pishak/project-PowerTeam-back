@@ -2,6 +2,7 @@ const { Schema, model } = require("mongoose");
 const handleMongooseError = require("../helpers/handleMongooseError");
 
 const {emailRegexp} = require("../helpers");
+const { genders } = require("../helpers/constants");
 
 const userSchema = new Schema(
   {
@@ -53,7 +54,7 @@ const userSchema = new Schema(
     },
     sex: {
       type: String,
-      enum: ["male", "female"],
+      enum: [genders.MALE, genders.FEMALE],
     },
     levelActivity: {
       type: Number,
