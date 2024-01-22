@@ -10,7 +10,7 @@ Welcome to the Power Pulse backend, made for the [Power Pulse](https://arch819.g
 - [Documentation](#documentation)
 - [Contributors](#contributors)
 
-## Featured
+## Features
 
 - **Authorization Functionality:** With the Power Pulse backend, you can keep your information safe. Here is implemented the functionality of registration, login and user logout. Also you can update profile information.
 
