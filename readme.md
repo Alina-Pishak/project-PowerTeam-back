@@ -1,6 +1,6 @@
 # Power Pulse backend
 
-Welcome to the Power Pulse backend, made for the [Power Pulse](https://arch819.github.io/project-PowerTeam-front/welcome) app. This server, based on Node.js and the Express framework, incorporates new technologies and modern methods for enhanced productivity. Connected to a MongoDB database, it creates a dynamic and secure foundation, ensuring application reliability.
+Welcome to the Power Pulse backend, made for the [Power Pulse](https://arch819.github.io/project-PowerTeam-front/welcome) app. This server based on Node.js and Express framework, includes new technologies and modern methods for high productivity. Connected to a MongoDB database, what makes a dynamic and secure foundation, ensuring application reliability.
 
 ## Table of Contents
 
@@ -101,7 +101,3 @@ Thanks goes to these wonderful people:
 - [Ihor Mushketyk](https://github.com/IgorMushk)
 - [Ganna Andriyenko](https://github.com/Annacheer)
 - [Liudmyla Ridko](https://github.com/liussi)
-
-```
-
-```
