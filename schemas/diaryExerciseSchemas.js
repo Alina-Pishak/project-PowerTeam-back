@@ -7,7 +7,7 @@ const createExercise = Joi.object({
       "Date must have any valid ISO date format, for example YYYY-MM-DD.",
     "any.required": "missing required date field",
   }),
-  time: Joi.number().min(1).max(180).required(),
+  time: Joi.number().min(0.01).max(3).required(),
   burnedCalories: Joi.number().required(),
 });
 

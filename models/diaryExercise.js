@@ -19,7 +19,7 @@ const diaryExerciseSchema = new Schema(
     },
     time: {
       type: Number,
-      min: 1,
+      min: 0.01,
       required: true,
     },
     burnedCalories: {
