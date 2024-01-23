@@ -23,6 +23,7 @@ const register = async (req, res) => {
       email: newUser.email,
       avatarURL: "",
       bodyData: false,
+      createdAt: newUser.createdAt,
     },
   });
 };
