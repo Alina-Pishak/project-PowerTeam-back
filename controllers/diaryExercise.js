@@ -69,10 +69,10 @@ const getDiaryByDate = async (req, res) => {
     .populate("exercise", "bodyPart equipment name target -_id");
 
   if (!diaryExercises.length) {
-    diaryExercises = null;
+    diaryExercises = [];
   }
   if (!diaryProducts.length) {
-    diaryProducts = null;
+    diaryProducts = [];
   }
 
   res.json({
