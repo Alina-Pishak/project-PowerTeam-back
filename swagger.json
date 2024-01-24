@@ -90,7 +90,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SigninUser"
+                "$ref": "#/components/schemas/LoginUser"
               }
             }
           }
@@ -101,7 +101,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/securitySchemes/SigninUserResponse"
+                  "$ref": "#/components/securitySchemes/LoginUserResponse"
                 }
               }
             }
@@ -157,7 +157,7 @@
         }
       }
     },
-    "/users/avatars": {
+    "/users/avatar": {
       "patch": {
         "tags": ["User Controller"],
         "summary": "Update user`s avatar",
@@ -259,15 +259,18 @@
         "tags": ["Diary Controller"],
         "summary": "User`s diary products ",
         "security": [{ "Bearer": [] }],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "Date",
-            "required": true,
-            "type": "string",
-            "description": "Date"
+        "parameters": [],
+        "requestBody": {
+          "description": "Date that find information about user`s diary",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiaryData"
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Information found",
@@ -293,15 +296,7 @@
         "tags": ["Diary Controller"],
         "summary": "User`s diary products ",
         "security": [{ "Bearer": [] }],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "Product`s id",
-            "required": true,
-            "type": "string",
-            "description": "Product`s id"
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "description": "Main information about eaten product",
           "required": true,
@@ -329,6 +324,9 @@
           },
           "401": {
             "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -356,6 +354,9 @@
           },
           "401": {
             "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -372,7 +373,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DiaryExercise"
+                "$ref": "#/components/schemas/DiaryExercises"
               }
             }
           }
@@ -516,7 +517,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/securitySchemes/ProductResponse"
+                  "$ref": "#/components/securitySchemes/ProductByIdResponse"
                 }
               }
             }
@@ -575,7 +576,14 @@
         "tags": ["Exercises Controller"],
         "summary": "All exercises by body parts/muscles/equipment",
         "security": [{ "Bearer": [] }],
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Filter params",
+            "type": "string",
+            "description": "Filter's title for exercises's list"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -616,7 +624,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/securitySchemes/ExerciseResponse"
+                  "$ref": "#/components/securitySchemes/ExerciseByIdResponse"
                 }
               }
             }
@@ -656,7 +664,7 @@
           "password": "examplepwd12345"
         }
       },
-      "SigninUser": {
+      "LoginUser": {
         "type": "object",
         "required": ["email", "password"],
         "properties": {
@@ -696,18 +704,7 @@
       },
       "ProfileUser": {
         "type": "object",
-        "required": [
-          "name",
-          "email",
-          "height",
-          "currentWeight",
-          "desiredWeight",
-          "birthday",
-          "blood",
-          "sex",
-          "levelActivity",
-          "bmr"
-        ],
+        "required": [],
         "properties": {
           "name": {
             "type": "string",
@@ -758,6 +755,8 @@
           }
         },
         "example": {
+          "name": "Adrian Cross",
+          "email": "across@mail.com",
           "height": 150,
           "currentWeight": 35,
           "desiredWeight": 35,
@@ -766,6 +765,19 @@
           "sex": "male",
           "levelActivity": 3,
           "bmr": 1800
+        }
+      },
+      "DiaryData": {
+        "type": "object",
+        "required": ["date"],
+        "properties": {
+          "date": {
+            "type": "date",
+            "description": "Date that find information about user`s diary"
+          }
+        },
+        "example": {
+          "date": "2024-01-23T20:41:58.339+00:00"
         }
       },
       "DiaryProducts": {
@@ -826,34 +838,7 @@
           "exercisesId": "64f2458d6f67bc34bae4f7f7",
           "date": "2024-01-14 02:17Z",
           "time": 3,
-          "burnedCalories": 327
-        }
-      },
-      "RecommendationsProducts": {
-        "type": "object",
-        "required": ["recommend"],
-        "properties": {
-          "recommend": {
-            "type": "bool",
-            "description": "Recommendations bool"
-          }
-        },
-        "example": {
-          "recommend": true
-        }
-      },
-      "ExercisesCategory": {
-        "type": "object",
-        "required": ["category"],
-        "properties": {
-          "category": {
-            "type": "string",
-            "description": "Exercises`s category",
-            "enum": ["bodyPart", "equipment", "target"]
-          }
-        },
-        "example": {
-          "category": "equipment"
+          "burnedCalories": 329
         }
       }
     },
@@ -884,6 +869,10 @@
               "bodyData": {
                 "type": "bool",
                 "description": "Availability of user data "
+              },
+              "createdAt": {
+                "type": "date",
+                "description": "Date when user was register "
               }
             }
           },
@@ -897,12 +886,13 @@
             "name": "Adrian Cross",
             "email": "across@mail.com",
             "avatarURL": "",
-            "bodyData": false
+            "bodyData": false,
+            "createdAt": "2024-01-23T20:41:58.339+00:00"
           },
           "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWEwNzViNzFmNGRlNTAwMTQ5MTZlMTUiLCJpYXQiOjE3MDUwMTQ3MTF9.TD3hhnF8GPyp8oJZRN1BIq1RBs-Bv-sG0zyfNYHyI5Y"
         }
       },
-      "SigninUserResponse": {
+      "LoginUserResponse": {
         "type": "object",
         "properties": {
           "user": {
@@ -923,6 +913,10 @@
               "bodyData": {
                 "type": "bool",
                 "description": "Availability of user data "
+              },
+              "createdAt": {
+                "type": "date",
+                "description": "Date when user was register "
               }
             }
           },
@@ -973,7 +967,8 @@
             "email": "across@mail.com",
             "name": "Adrian Cross",
             "avatarURL": "https://gravatar.com/avatar/29c3250c49d381565a70e08af4a4771c?s=400&d=robohash&r=x",
-            "bodyData": true
+            "bodyData": true,
+            "createdAt": "2024-01-23T20:41:58.339+00:00"
           },
           "userParams": {
             "height": 150,
@@ -1009,6 +1004,10 @@
               "bodyData": {
                 "type": "bool",
                 "description": "Availability of user data "
+              },
+              "createdAt": {
+                "type": "date",
+                "description": "Date when user was register "
               }
             }
           },
@@ -1055,7 +1054,8 @@
             "email": "across@mail.com",
             "name": "Adrian Cross",
             "avatarURL": "https://gravatar.com/avatar/29c3250c49d381565a70e08af4a4771c?s=400&d=robohash&r=x",
-            "bodyData": true
+            "bodyData": true,
+            "createdAt": "2024-01-23T20:41:58.339+00:00"
           },
           "userParams": {
             "height": 150,
@@ -1206,92 +1206,6 @@
           ]
         }
       },
-      "DiaryProductsListResponse": {
-        "type": "array",
-        "properties": {
-          "idProduct": {
-            "type": "string",
-            "description": "Product`s id"
-          },
-          "title": {
-            "type": "string",
-            "description": "Product`s title"
-          },
-          "category": {
-            "type": "string",
-            "description": "Product`s category"
-          },
-          "calories": {
-            "type": "number",
-            "description": "Product`s calories"
-          },
-          "amount": {
-            "type": "number",
-            "description": "Product`s weight"
-          },
-          "recommend": {
-            "type": "bool",
-            "description": "Recommendations for the consumption of the product "
-          }
-        },
-        "example": [
-          {
-            "idProduct": "5d51694902b2373622ff5773",
-            "title": "Danbo cheese",
-            "category": "dairy",
-            "calories": 340,
-            "amount": 100,
-            "recommend": true
-          }
-        ]
-      },
-      "DiaryExercisesListResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "idExercise": {
-              "type": "string",
-              "description": "Exercise`s id"
-            },
-            "bodypart": {
-              "type": "string",
-              "description": "Exercise`s body parts"
-            },
-            "equipment": {
-              "type": "string",
-              "description": "Exercise`s equipment"
-            },
-            "name": {
-              "type": "string",
-              "description": "Exercise`s name"
-            },
-            "target": {
-              "type": "string",
-              "description": "Exercise`s target"
-            },
-            "burnedCalories": {
-              "type": "number",
-              "description": "Burned calories"
-            },
-            "time": {
-              "type": "number",
-              "description": "Exercise`s time"
-            }
-          }
-        },
-        "example": [
-          {
-            "idExercise": "64f2458d6f67bc34bae4f7f7",
-            "bodyPart": "chest",
-            "equipment": "leverage machine",
-            "name": "assisted chest dip (kneeling)",
-            "target": "pectorals",
-            "burnedCalories": 329,
-            "time": 3
-          }
-        ]
-      },
       "DiaryAddProductResponse": {
         "type": "object",
         "properties": {
@@ -1332,25 +1246,13 @@
       "DiaryAddExerciseResponse": {
         "type": "object",
         "properties": {
-          "idExercise": {
+          "exercise": {
             "type": "string",
             "description": "Exercise`s id"
           },
-          "bodyPart": {
-            "type": "string",
-            "description": "Exercise`s body parts"
-          },
-          "equipment": {
-            "type": "string",
-            "description": "Exercise`s equipment"
-          },
-          "name": {
-            "type": "string",
-            "description": "Exercise`s name"
-          },
-          "target": {
-            "type": "string",
-            "description": "Exercise`s target"
+          "date": {
+            "type": "date",
+            "description": "Date, when user done this exercise"
           },
           "burnedCalories": {
             "type": "number",
@@ -1362,13 +1264,10 @@
           }
         },
         "example": {
-          "idExercise": "64f2458d6f67bc34bae4f7f7",
-          "bodyPart": "chest",
-          "equipment": "leverage machine",
-          "name": "assisted chest dip (kneeling)",
-          "target": "pectorals",
-          "burnedCalories": 329,
-          "time": 3
+          "exercises": "64f2458d6f67bc34bae4f7f7",
+          "date": "2024-01-14 02:17Z",
+          "time": 3,
+          "burnedCalories": 329
         }
       },
       "ProductsListResponse": {
@@ -1418,9 +1317,21 @@
         "items": {
           "type": "string",
           "description": "Product`s category"
-        }
+        },
+        "example": [
+          "alcoholic drinks",
+          "berries",
+          "cereals",
+          "dairy",
+          "dried fruits",
+          "eggs",
+          "fish",
+          "flour",
+          "fruits",
+          "meat"
+        ]
       },
-      "ProductResponse": {
+      "ProductByIdResponse": {
         "type": "object",
         "properties": {
           "idProduct": {
@@ -1515,7 +1426,7 @@
           "type": "object",
           "description": "Exercise`s categories list",
           "properties": {
-            "idExercise": {
+            "idFilter": {
               "type": "string",
               "description": "Exercise`s id"
             },
@@ -1523,7 +1434,7 @@
               "type": "string",
               "description": "Exercise`s name"
             },
-            "gifUrl": {
+            "imgUrl": {
               "type": "string",
               "description": "Exercise`s gifUrl"
             },
@@ -1532,9 +1443,17 @@
               "description": "Exercise`s category"
             }
           }
-        }
+        },
+        "example": [
+          {
+            "idFilter": "64f2458d6f67bc34bae4f7f7",
+            "name": "assisted chest dip (kneeling)",
+            "imgUrl": "https://ftp.goit.study/img/power-pulse/gifs/0219.gif",
+            "filter": "pectorals"
+          }
+        ]
       },
-      "ExerciseResponse": {
+      "ExerciseByIdResponse": {
         "type": "object",
         "properties": {
           "idExercise": {
