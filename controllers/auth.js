@@ -132,7 +132,7 @@ const profileSettings = async (req, res) => {
       sex: updateUser.sex,
       levelActivity: updateUser.levelActivity,
       bmr: updateUser.bmr,
-      createdAt: user.createdAt,
+      createdAt: updateUser.createdAt,
     },
   };
   res.json(userRes);
