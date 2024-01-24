@@ -48,6 +48,7 @@ const login = async (req, res) => {
       name: user.name,
       avatarURL: user.avatarURL,
       bodyData: user.bodyData,
+      createdAt: user.createdAt,
     },
     userParams: {
       height: user.height,
