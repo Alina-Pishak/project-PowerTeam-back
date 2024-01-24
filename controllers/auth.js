@@ -106,7 +106,6 @@ const profileSettings = async (req, res) => {
   const { email } = req.body;
 
   const user = await User.findOne({ email });
-
   if (user && _id.toString() !== user._id.toString()) {
     throw HttpError(400, "Email is already in use by another user");
   }
@@ -133,6 +132,7 @@ const profileSettings = async (req, res) => {
       sex: updateUser.sex,
       levelActivity: updateUser.levelActivity,
       bmr: updateUser.bmr,
+      createdAt: user.createdAt,
     },
   };
   res.json(userRes);
