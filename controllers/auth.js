@@ -110,8 +110,6 @@ const profileSettings = async (req, res) => {
     throw HttpError(400, "Email is already in use by another user");
   }
 
-  console.log(user);
-
   const updateUser = await User.findByIdAndUpdate(
     _id,
     { ...req.body, bodyData: true },
